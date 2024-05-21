@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minha Agenda</title>
+
+    <style>
+      body {
+        max-width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(to right, #a4c5cf, #d8e7e7);
+        font-family: sans-serif;
+        color: #1f1f1f;
+      }
+
+      header {
+        width: 100%;
+      }
+
+      header > h1 {
+        padding: 10px 100px;
+      }
+
+      main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container-content {
+        padding: 50px;
+        margin: 50px;
+        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        background: #f1f1f1;
+      }
+
+      h2 {
+        font-size: 30px;
+        margin-bottom: 50px;
+        text-align: center;
+      }
+
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+      }
+
+      .input-container > label {
+        font-size: 20px;
+      }
+
+      .input-container > input,
+      .input-container > select {
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 18px;
+      }
+
+      form > button {
+        cursor: pointer;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        color: #f1f1f1;
+        background: #0e6ffe;
+        transition: 0.2s ease;
+      }
+
+      form > button:hover {
+        background: #0a50b9;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .remove-button {
+        cursor: pointer;
+        padding: 8px;
+        font-weight: bold;
+        border-radius: 4px;
+        color: #f1f1f1;
+        background: #fe0e0e;
+        transition: 0.2s ease;
+      }
+
+      .remove-button:hover {
+        background: #b90a0a;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Minha Agenda</h1>
+    </header>
+
+    <main>
+      <div class="container-content">
+        <section>
+          <h2>Criar Nova Consulta</h2>
+          <form action="{% url 'criar_consulta' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-container">
+              <label for="data_consulta">Data da Consulta:</label>
+              <input
+                type="datetime-local"
+                id="data_consulta"
+                name="date"
+                required
+              />
+            </div>
+
+            <input
+              type="hidden"
+              value="{{ terapeuta.id }}"
+              id="_idTerapeuta"
+              name="_idTerapeuta"
+              required
+            />
+
+            <div class="input-container">
+              <label for="_idPaciente">Paciente:</label>
+              <select id="_idPaciente" name="_idPaciente">
+                {% for paciente in pacientes %}
+                <option value="{{ paciente.idPaciente }}">
+                  {{ paciente.nome }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <button type="submit">Salvar Consulta</button>
+          </form>
+        </section>
+        <hr />
+        <section>
+          <h2>Consultas Agendadas</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Data da Consulta</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for agenda in consultas %}
+              <tr>
+                <td>{{ agenda.name }}</td>
+                <td>{{ agenda.date }}</td>
+                <td>
+                  <form
+                    action="{% url 'deletar_consulta' agenda.id_agenda %}"
+                    method="post"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="remove-button">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const terapeuta = document.getElementById("_idTerapeuta");
+      const terapeutaLocalsStorage =
+        localStorage.getItem("trabalho_agenda_terapeutaId") || "";
+
+      if (terapeutaLocalsStorage)
+        return (terapeuta.value = terapeutaLocalsStorage);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <title>Editar Cadastro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1 {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            margin: -40px -40px 20px -40px;
+            border-radius: 5px 5px 0 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        .small-header {
+            font-size: 1rem;
+            text-align: left;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-btn, .back-btn {
+            position: absolute;
+            top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        .logout-btn:hover, .back-btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-btn {
+            right: 20px;
+        }
+        .back-btn {
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
+    <div class="container">
+        <h1>Editar Cadastro</h1>
+        <form action="{% url 'salvar' %}" method="POST">
+            {% csrf_token %}
+            <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-6">
+                    <h3 class="small-header">Nome</h3>
+                    <input type="text" name="nome" class="form-control" value="{{paciente.nome}}" required />
+                </div>
+                <div class="col-md-6">
+                    <h3 class="small-header">Data de Nascimento</h3>
+                    <input type="date" name="data_nascimento" class="form-control" value="{{paciente.data_nascimento|date:'Y-m-d'}}" required />
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-6">
+                    <h3 class="small-header">Sexo</h3>
+                    <select name="sexo" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="Masculino" {% if paciente.sexo == "Masculino" %}selected{% endif %}>Masculino</option>
+                        <option value="Feminino" {% if paciente.sexo == "Feminino" %}selected{% endif %}>Feminino</option>
+                        <option value="Outro" {% if paciente.sexo == "Outro" %}selected{% endif %}>Outro</option>
+                        <option value="Prefiro não dizer" {% if paciente.sexo == "Prefiro não dizer" %}selected{% endif %}>Prefiro não dizer</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="small-header">Email</h3>
+                    <input type="email" name="email" class="form-control" value="{{paciente.email}}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-6">
+                    <h3 class="small-header">CPF</h3>
+                    <input type="text" name="cpf" class="form-control" value="{{paciente.cpf}}" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00" required />
+                </div>
+                <div class="col-md-6">
+                    <h3 class="small-header">RG</h3>
+                    <input type="text" name="rg" class="form-control" value="{{paciente.rg}}" pattern="\d+(\.\d+)*" title="Formato: números separados por pontos" required />
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-6">
+                    <h3 class="small-header">Celular</h3>
+                    <input type="text" name="celular" class="form-control" value="{{paciente.celular}}"/>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="small-header">Endereço</h3>
+                    <input type="text" name="Endereco" class="form-control" value="{{paciente.Endereco}}" />
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-6">
+                    <h3 class="small-header">Nacionalidade</h3>
+                    <input type="text" name="nacionalidade" class="form-control" value="{{paciente.nacionalidade}}" required />
+                </div>
+                <div class="col-md-6">
+                  <h3 class="small-header">Estado Civil</h3>
+                  <select name="estadocivil" class="form-control" required>
+                      <option value="">Selecione</option>
+                      <option value="Solteiro" {% if paciente.estadocivil == "Solteiro" %}selected{% endif %}>Solteiro</option>
+                      <option value="Casado(a)" {% if paciente.estadocivil == "Casado(a)" %}selected{% endif %}>Casado(a)</option>
+                      <option value="Viuvo(a)" {% if paciente.estadocivil == "Viuvo(a)" %}selected{% endif %}>Viuvo(a)</option>
+                      <option value="Divorciado(a)" {% if paciente.estadocivil == "Divorciado(a)" %}selected{% endif %}>Divorciado(a)</option>
+                      <option value="União estável" {% if paciente.estadocivil == "União estável" %}selected{% endif %}>União estável</option>
+                  </select>
+              </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;">
+              <div class="col-md-6">
+                  <h3 class="small-header">Profissão</h3>
+                  <input type="text" name="profissao" class="form-control" value="{{paciente.profissao}}" />
+              </div>
+              <div class="col-md-6">
+                  <h3 class="small-header">Convênio</h3>
+                  <input type="text" name="convenio" class="form-control" value="{{paciente.convenio}}" />
+              </div>
+          </div>
+          <div>
+              <button type="submit" class="btn btn-info">Atualizar</button>
+          </div>
+      </form>
+  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+  </html>
+  

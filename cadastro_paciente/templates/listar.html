@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Pacientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2 !important; /* Adicione !important para garantir que essa regra seja aplicada */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1 {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            margin: -40px -40px 20px -40px;
+            border-radius: 5px 5px 0 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        .small-header {
+            font-size: 1rem;
+            text-align: left;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-btn, .back-btn {
+            position: absolute;
+            top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        .logout-btn:hover, .back-btn:hover {
+            background-color: #0056b3;
+        }
+        .logout-btn {
+            right: 20px;
+        }
+        .back-btn {
+            left: 20px;
+        }
+        .paciente-card {
+            display: inline-block;
+            border: 1px solid rgb(236, 231, 231);
+            margin: 10px;
+            padding: 20px; /* Aumentando o preenchimento */
+            width: calc(33% - 20px); /* Ajustando a largura */
+            min-width: 300px; /* Largura mínima */
+            height: auto; /* Altura automática */
+            background-color: white;
+        }
+        .search-input {
+            display: inline-block;
+            width: calc(100% - 20px); /* Ajustando a largura */
+            margin-bottom: 10px; /* Adicionando margem inferior */
+        }
+        
+    </style>
+</head>
+<body>
+    <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
+    <div class="container">
+        <h1>Lista de Pacientes</h1>
+        <!-- Adicione a classe "search-input" ao div envolvendo o input de pesquisa -->
+        <div class="search-input">
+            <input type="text" class="form-control" placeholder="Pesquisar" oninput="filterCards(this.value)">
+        </div>
+        <div class="row">
+            {% for paciente in pacientes %}
+                <div class="col-md-4">
+                    <div class="paciente-card">
+                        <strong>{{ paciente.nome }}</strong>
+                        <br><span>Contato:</span>
+                        {% if paciente.celular %}
+                            <span>{{ paciente.celular }}</span>
+                        {% endif %}
+                        <br><span>Data de nascimento:</span>
+                        {% if paciente.data_nascimento %}
+                            <span>{{ paciente.data_nascimento }}</span>
+                        {% endif %}
+                        <br><span>Convênio:</span>
+                        {% if paciente.convenio %}
+                            <span>{{ paciente.convenio }}</span>
+                        {% endif %}
+                        <br>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <style>
+        body {
+            background: #0056b3; /* Cor de fundo ajustada */
+        }
+    </style>
+    <script>
+        function filterCards(value) {
+            var cards = document.getElementsByClassName("paciente-card");
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var nome = card.getElementsByTagName("strong")[0].innerText.toLowerCase();
+                if (nome.includes(value.toLowerCase())) {
+                    card.style.display = "inline-block";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

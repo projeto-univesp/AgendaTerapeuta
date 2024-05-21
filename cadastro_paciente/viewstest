@@ -1,0 +1,26 @@
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import CadastroPaciente
+
+class PacienteListView(ListView):
+    model = CadastroPaciente
+    template_name = 'paciente_list.html'  # Nome do seu template HTML para listar pacientes
+
+class PacienteDetailView(DetailView):
+    model = CadastroPaciente
+    template_name = 'paciente_detail.html'  # Nome do seu template HTML para detalhes do paciente
+
+class PacienteCreateView(CreateView):
+    model = CadastroPaciente
+    template_name = 'paciente_form.html'  # Nome do seu template HTML para o formulário de cadastro de paciente
+    fields = '__all__'  # Ou liste os campos que você deseja exibir no formulário
+
+class PacienteUpdateView(UpdateView):
+    model = CadastroPaciente
+    template_name = 'paciente_form.html'  # Nome do seu template HTML para o formulário de edição de paciente
+    fields = '__all__'  # Ou liste os campos que você deseja exibir no formulário
+
+class PacienteDeleteView(DeleteView):
+    model = CadastroPaciente
+    template_name = 'paciente_confirm_delete.html'  # Nome do seu template HTML para a confirmação de exclusão
+    success_url = reverse_lazy('paciente_list')  # Nome da URL para redirecionar após a exclusão bem-sucedida
