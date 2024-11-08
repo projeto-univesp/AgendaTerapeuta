@@ -80,10 +80,10 @@
     </style>
 </head>
 <body>
-    <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
+    <a href="{% url 'home_paciente' %}" class="back-btn">Voltar</a>
     <div class="container">
         <h1>Editar Cadastro</h1>
-        <form action="{% url 'salvar_paciente' %}" method="POST">
+        <form action="{% url 'salvar' %}" method="POST">
             {% csrf_token %}
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">

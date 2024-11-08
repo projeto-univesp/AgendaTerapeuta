@@ -84,7 +84,7 @@
     <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
     <div class="container">
         <h1>Cadastrar</h1>
-        <form action="{% url 'salvar' %}" method="POST">
+        <form action="{% url 'salvar_paciente' %}" method="POST">
             {% csrf_token %}
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
