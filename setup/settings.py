@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cadastro_paciente.apps.CadastroPacienteConfig',
     'agenda.apps.AgendaConfig',
     'login_terapeuta.apps.LoginTerapeutaConfig',
+    'login_pacientes',
     'home.apps.HomeConfig'
 ]
 
@@ -80,11 +81,14 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": config(
-        "DATABASE_URL",
-        default=f'sqlite:///{BASE_DIR / "db_sqlite3"}',
-        cast=db_url,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'AgendaTerapeuta',  # Nome do banco de dados que você criou
+        'USER': 'postgres',     # Usuário do PostgreSQL
+        'PASSWORD': 'projeto',   # Senha do PostgreSQL
+        'HOST': 'localhost',       # Ou o IP do servidor onde o banco está hospedado
+        'PORT': '5432',            # Porta do PostgreSQL, geralmente é 5432
+    }
 }
 
 

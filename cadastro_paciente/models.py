@@ -2,12 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class CadastroPaciente(models.Model):
-    SEXO_CHOICES = [
-        ('M', 'Masculino'),
-        ('F', 'Feminino'),
-        ('O', 'Outro'),
-    ]
-
+   
     ESTADO_CIVIL_CHOICES = [
         ('solteiro', 'Solteiro(a)'),
         ('casado', 'Casado(a)'),
@@ -20,7 +15,7 @@ class CadastroPaciente(models.Model):
     idPaciente = models.AutoField(primary_key=True, null=False, blank=False)
     nome = models.CharField(max_length=100, null=False, blank=False)
     data_nascimento = models.DateField(null=True, blank=True)
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, null=True)
+    sexo = models.CharField(max_length=30, null=True)
     email = models.EmailField(max_length=254, null=True, blank=True)
     cpf = models.CharField(max_length=14, null=True, blank=True)
     rg = models.CharField(max_length=20, null=True, blank=True)
