@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Pacientes</title>
+    <title>Home</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +11,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            position: relative;
+            position: relative; /* Adicionando posição relativa ao corpo */
         }
         .container {
             background-color: white;
@@ -24,7 +22,7 @@
             width: 400px; /* Aumentado de 300px para 400px */
         }
         .container h1 {
-            background-color: #007bff;
+            background-color: #007bff; /* Azul original */
             color: white;
             padding: 20px 0; /* Aumentado de 10px para 20px */
             margin: -40px -40px 20px -40px; /* Aumentado de -20px para -40px */
@@ -32,7 +30,7 @@
             font-size: 24px; /* Aumentado o tamanho da fonte */
         }
         .container button {
-            background-color: #007bff;
+            background-color: #007bff; /* Azul original */
             color: white;
             padding: 15px 30px; /* Aumentado de 10px 20px para 15px 30px */
             border: none;
@@ -45,13 +43,13 @@
             width: 100%;
         }
         .container button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Cor mais clara para o efeito hover */
         }
         .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #007bff;
+            position: absolute; /* Posicionamento absoluto */
+            top: 20px; /* Distância do topo */
+            right: 20px; /* Distância da direita */
+            background-color: #007bff; /* Azul original */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -61,33 +59,16 @@
             cursor: pointer;
         }
         .logout-btn:hover {
-            background-color: #0056b3;
-        }
-        .back-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Cor mais clara para o efeito hover */
         }
     </style>
 </head>
 <body>
-    <a class="back-btn" href="/home">Voltar</a>
     <div class="container">
-        <h1>Cadastro de Pacientes</h1>
-        <button onclick="window.location.href='/paciente/listar/'">Listar Pacientes</button>
-        <button onclick="window.location.href='/paciente/buscar/'">Pesquisar Paciente</button>
-        <button onclick="window.location.href='/paciente/cadastrar/'">Cadastrar</button>
+        <h1>Agenda Terapeuta</h1>
+        <button onclick="window.location.href='/pacientehome/cadastrar/'">Cadastro</button>
+        <button onclick="window.location.href='/agenda/'">Agenda</button>
     </div>
+    <a class="logout-btn" href="{% url 'logout' %}">Sair</a>
 </body>
 </html>

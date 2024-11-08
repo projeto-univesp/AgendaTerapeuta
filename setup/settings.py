@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'agenda.apps.AgendaConfig',
     'login_terapeuta.apps.LoginTerapeutaConfig',
     'login_pacientes',
-    'home.apps.HomeConfig'
+    'home.apps.HomeConfig',
+    'cadastro_paciente_paciente',
 ]
 
 MIDDLEWARE = [
