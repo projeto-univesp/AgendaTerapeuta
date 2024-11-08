@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'cadastro_paciente.apps.CadastroPacienteConfig',
     'agenda.apps.AgendaConfig',
     'login_terapeuta.apps.LoginTerapeutaConfig',
-    'home.apps.HomeConfig'
+    'home.apps.HomeConfig',
+    'cadastro_paciente_paciente'
 ]
 
 MIDDLEWARE = [
@@ -80,11 +81,14 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": config(
-        "DATABASE_URL",
-        default=f'sqlite:///{BASE_DIR / "db_sqlite3"}',
-        cast=db_url,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'AgendaTerapeuta',  
+        'USER': 'postgres',    
+        'PASSWORD': '12345678',  
+        'HOST': 'localhost',      
+        'PORT': '5432',            
+    }
 }
 
 
