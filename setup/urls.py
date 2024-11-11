@@ -11,4 +11,5 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('pacientehome/', include('cadastro_paciente_paciente.urls')),
     path('agendapaciente/', include('agenda_paciente.urls')),
+    path('', include('pagina_inicial.urls')),
 ]

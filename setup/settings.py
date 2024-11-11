@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'cadastro_paciente_paciente',
     'agenda_paciente',
+    'pagina_inicial',
 ]
 
 MIDDLEWARE = [
