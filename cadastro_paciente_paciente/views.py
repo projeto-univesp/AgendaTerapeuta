@@ -3,11 +3,11 @@ from cadastro_paciente.models import CadastroPaciente
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-#@login_required(login_url="/auth/login/")
+@login_required(login_url="/auth/login/paciente")
 def paciente(request):
     return render(request, "cadastro_paciente_paciente/home_paciente.html")
 
-#@login_required
+@login_required
 def salvar(request):
     if request.method == 'POST':
         nome = request.POST.get("nome")
@@ -30,12 +30,12 @@ def salvar(request):
         return redirect(paciente)
     return render(request, "cadastro_paciente_paciente/cadastrar.html")
 
-#@login_required
+@login_required
 def editar(request, idPaciente):
     paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
     return render(request, "editar.html", {"paciente": paciente})
 
-#@login_required
+@login_required
 def atualizar(request, idPaciente):
     paciente = get_object_or_404(CadastroPaciente, id=idPaciente, terapeuta=request.user)
     if request.method == 'POST':
@@ -60,6 +60,7 @@ def atualizar(request, idPaciente):
 def pagina_cadastrar(request):
     return render(request, "cadastro_paciente_paciente/cadastrar.html")'''
 
+@login_required()
 def pagina_cadastrar(request):
     # Verifique se o paciente já está cadastrado para este terapeuta
     paciente_existente = CadastroPaciente.objects.get(email=request.user.email)

@@ -65,9 +65,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>Agenda Terapeuta</h1>
+        <h1>Agenda Terapeuta</h1>{% csrf_token %}
         <button onclick="window.location.href='/pacientehome/cadastrar/'">Cadastro</button>
-        <button onclick="window.location.href='/agenda/'">Agenda</button>
+        <button onclick="window.location.href='/agendapaciente/paciente'">Agenda</button>
     </div>
     <a class="logout-btn" href="{% url 'logout' %}">Sair</a>
 </body>

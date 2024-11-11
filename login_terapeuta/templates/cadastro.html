@@ -55,6 +55,13 @@
     <div class="container">
         <h1>Cadastrar</h1>
         <form action="{% url 'cadastro' %}" method="POST"> {% csrf_token %}
+            {% csrf_token %}
+            <input type="text" placeholder="Nome..." name="nome" required>
+            <br>
+            <input type="text" placeholder="CPF..." name="cpf" required>
+            <br>
+            <input type="text" placeholder="Celular..." name="celular" required>
+            <br>
             <input type="text" placeholder="Username..." name="username" required>
             <br>
             <input type="email" placeholder="Email..." name="email" required>
