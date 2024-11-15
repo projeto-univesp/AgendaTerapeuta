@@ -42,10 +42,6 @@ def salvar(request):
         estado_civil = request.POST.get("estado_civil")
         profissao = request.POST.get("profissao")
         convenio = request.POST.get("convenio")
-
-        if CadastroPaciente.objects.filter(cpf=cpf).exists():
-            return render(request, 'usuario_existente.html')
-        
         CadastroPaciente.objects.create(
             nome=nome, data_nascimento=data_nascimento, sexo=sexo, email=email, cpf=cpf, rg=rg,
             celular=celular, endereco=endereco, nacionalidade=nacionalidade, estado_civil=estado_civil,
@@ -65,10 +61,8 @@ def editar(request, idPaciente):
 
 @login_required
 def atualizar(request, idPaciente):
-    # Aqui, estou corrigindo a busca para usar idPaciente em vez de id
-    paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
+    paciente = get_object_or_404(CadastroPaciente, id=idPaciente, terapeuta=request.user)
     if request.method == 'POST':
-        # Atualize os atributos do paciente
         paciente.nome = request.POST.get("nome")
         paciente.data_nascimento = request.POST.get("data_nascimento")
         paciente.sexo = request.POST.get("sexo")
@@ -81,10 +75,7 @@ def atualizar(request, idPaciente):
         paciente.estado_civil = request.POST.get("estado_civil")
         paciente.profissao = request.POST.get("profissao")
         paciente.convenio = request.POST.get("convenio")
-        
-        # Salva as mudanças
         paciente.save()
-        
         return redirect(homePaciente)
     return render(request, "editar.html", {"paciente": paciente})
 

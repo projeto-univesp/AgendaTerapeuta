@@ -121,7 +121,7 @@
 <body>
     <a class="back-btn" href="/home">Voltar</a>
     <div class="container">
-        <h1>Nao quero me consultar</h1>
+        <h1>Agenda</h1>
         <section>
             <form action="{% url 'criar_consulta_paciente' %}" method="POST">
                 {% csrf_token %}
@@ -129,7 +129,6 @@
                     <label for="data_consulta">Data da Consulta:</label>
                     <input type="datetime-local" id="data_consulta" name="date" required />
                 </div>
-                <input type="hidden" value="{{ terapeuta.id }}" id="_idTerapeuta" name="_idTerapeuta" required />
                 <button type="submit">Salvar Consulta</button>
             </form>
         </section>
@@ -146,10 +145,9 @@
                 <tbody>
                     {% for agenda in consultas %}
                     <tr>
-                        <td>{{ agenda.name }}</td>
                         <td>{{ agenda.date }}</td>
                         <td>
-                            <form action="{% url 'deletar_consulta_paciente' agenda_paciente.id_agenda %}" method="post">
+                            <form action="{% url 'deletar_consulta_paciente' agenda.id_agenda %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="remove-button">Excluir</button>
                             </form>

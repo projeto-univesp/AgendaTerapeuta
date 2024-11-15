@@ -54,7 +54,7 @@
     <div class="container">
         <h1>Logout</h1>
         <p>Tem certeza que deseja sair?</p>
-        <form action="{% url 'logout' %}" method="post">
+        <form action="{% url 'pagina_inicial' %}" method="post">
             {% csrf_token %}
             <button type="submit">Sair</button>
         </form>

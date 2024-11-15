@@ -25,9 +25,9 @@ def cadastro(request): #request é uma solicitacao feita por quem está querendo
 
         #terapeuta = User.objects.filter(username=codigo_acesso).first()
 
-        cod_terapeuta = User.objects.filter(username=codigo_acesso).first()
+        terapeuta = User.objects.filter(username=codigo_acesso).first()
 
-        if not cod_terapeuta:
+        if not terapeuta:
             # Exibir mensagem de erro se o terapeuta não for encontrado
             return render(request, 'login_pacientes/codigo_invalido.html', {'erro': 'Código de acesso inválido. Terapeuta não encontrado.'})
 
@@ -40,7 +40,7 @@ def cadastro(request): #request é uma solicitacao feita por quem está querendo
         # create_user() é um método específico para a criação de usuários. Ele simplifica o processo de criar e salvar um usuário, pois já inclui medidas de segurança.
         user.save()
 
-        PerfilPaciente.objects.create(usuario=user, name=name, codigo_acesso=codigo_acesso)
+        PerfilPaciente.objects.create(usuario=user, name=name, codigo_acesso=codigo_acesso, terapeuta=terapeuta)
         
         return redirect(login)
 

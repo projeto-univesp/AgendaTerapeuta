@@ -93,14 +93,14 @@
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Data de Nascimento</h3>
-                    <input type="date" name="data_nascimento" class="form-control" required />
+                    <input type="date" name="data_nascimento" class="form-control" value="{{ paciente.data_nascimento|date:'Y-m-d' }}" required />
                 </div>
             </div>
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">Sexo</h3>
                     <select name="sexo" class="form-control" required>
-                        <option value="">Selecione</option>
+                        <option value="Sexo" label="{{ paciente.sexo }}">Selecione</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Feminino">Feminino</option>
                         <option value="Outro">Outro</option>
@@ -109,38 +109,38 @@
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Email</h3>
-                    <input type="email" name="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                    <input type="email" name="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{ paciente.email }}" />
                 </div>
             </div>
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">CPF</h3>
-                    <input type="text" name="cpf" class="form-control" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00" required />
+                    <input type="text" name="cpf" class="form-control" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00" value="{{ paciente.cpf }}" required />
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">RG</h3>
-                    <input type="text" name="rg" class="form-control" pattern="\d+(\.\d+)*" title="Formato: números separados por pontos" required />
+                    <input type="text" name="rg" class="form-control" pattern="\d+(\.\d+)*" title="Formato: números separados por pontos" value="{{ paciente.rg }}" required />
                 </div>
             </div>
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">Celular</h3>
-                    <input type="text" name="celular" class="form-control" />
+                    <input type="text" name="celular" class="form-control" value="{{ paciente.celular }}" />
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Endereço</h3>
-                    <input type="text" name="endereco" class="form-control" required />
+                    <input type="text" name="endereco" class="form-control" value="{{ paciente.endereco }}" required />
                 </div>
             </div>
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">Nacionalidade</h3>
-                    <input type="text" name="nacionalidade" class="form-control" required />
+                    <input type="text" name="nacionalidade" class="form-control" value="{{ paciente.nacionalidade }}" required />
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Estado Civil</h3>
                     <select name="estado_civil" class="form-control">
-                        <option value="">Selecione</option>
+                        <option value="estado_civil" label="{{ paciente.estado_civil }}">Selecione</option>
                         <option value="solteiro">Solteiro(a)</option>
                         <option value="casado">Casado(a)</option>
                         <option value="viuvo">Viúvo(a)</option>
@@ -152,11 +152,11 @@
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">Profissão</h3>
-                    <input type="text" name="profissao" class="form-control" required />
+                    <input type="text" name="profissao" class="form-control" value="{{ paciente.profissao }}" required />
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Convênio</h3>
-                    <input type="text" name="convenio" class="form-control" />
+                    <input type="text" name="convenio" class="form-control" value="{{ paciente.convenio }}" />
                 </div>
             </div>
             <div>
