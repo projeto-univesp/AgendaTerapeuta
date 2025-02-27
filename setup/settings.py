@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'AgendaTerapeuta',  # Nome do banco de dados que você criou
         'USER': 'postgres',     # Usuário do PostgreSQL
-        'PASSWORD': 'projeto',   # Senha do PostgreSQL
+        'PASSWORD': '12345678',   # Senha do PostgreSQL
         'HOST': 'localhost',       # Ou o IP do servidor onde o banco está hospedado
         'PORT': '5432',            # Porta do PostgreSQL, geralmente é 5432
     }
