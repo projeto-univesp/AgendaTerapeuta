@@ -19,11 +19,11 @@
         .container {
             background-color: white;
             padding: 40px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 90%;
-            max-width: 500px;
+            max-width: 800px;
             box-sizing: border-box;
             margin-bottom: 20px;
         }
@@ -32,12 +32,13 @@
             color: white;
             padding: 20px 0;
             margin: -40px -40px 20px -40px;
-            border-radius: 5px 5px 0 0;
+            border-radius: 10px 10px 0 0;
             font-size: 24px;
         }
         .container h2 {
             font-size: 22px;
             margin-bottom: 20px;
+            color: #333;
         }
         .input-container {
             display: flex;
@@ -48,11 +49,12 @@
         .input-container > label {
             font-size: 18px;
             margin-bottom: 5px;
+            color: #555;
         }
         .input-container > input,
         .input-container > select {
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 5px;
             font-size: 16px;
             border: 1px solid #ccc;
             width: 100%;
@@ -69,6 +71,7 @@
             cursor: pointer;
             margin-bottom: 20px;
             width: 100%;
+            transition: background-color 0.3s ease;
         }
         .container button:hover {
             background-color: #0056b3;
@@ -90,15 +93,16 @@
             color: white;
         }
         .remove-button {
-            background-color: #ff0000; /* Cor vermelha */
+            background-color: #ff0000;
             color: white;
             padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         .remove-button:hover {
-            background-color: #b30000; /* Cor vermelha mais escura */
+            background-color: #b30000;
         }
         .back-btn {
             background-color: #007bff;
@@ -112,9 +116,103 @@
             position: absolute;
             top: 20px;
             left: 20px;
+            transition: background-color 0.3s ease;
         }
         .back-btn:hover {
             background-color: #0056b3;
+        }
+        #lembrete-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .status-enviado {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-falha {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-aguardando {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .status-nao-aplicavel {
+            color: #6c757d;
+        }
+        .info-badge {
+            background-color: #17a2b8;
+            color: white;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        /* Novos estilos para dias restantes */
+        .dias-restantes {
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .consulta-futura {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        /* Estilos para animação de envio */
+        @keyframes sendingDots {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+            100% { content: ''; }
+        }
+        .enviando-mensagem {
+            position: relative;
+            display: inline-block;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .enviando-mensagem::after {
+            content: '';
+            display: inline-block;
+            animation: sendingDots 1.5s infinite;
+            width: 20px;
+            text-align: left;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .container h1 {
+                font-size: 20px;
+                padding: 15px 0;
+                margin: -20px -20px 15px -20px;
+            }
+            .container h2 {
+                font-size: 18px;
+            }
+            .input-container > label {
+                font-size: 16px;
+            }
+            .input-container > input,
+            .input-container > select {
+                padding: 10px;
+                font-size: 14px;
+            }
+            .container button {
+                font-size: 16px;
+                padding: 12px;
+            }
+            th,
+            td {
+                padding: 10px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -129,10 +227,10 @@
                     <label for="data_consulta">Data da Consulta:</label>
                     <input type="datetime-local" id="data_consulta" name="date" required />
                 </div>
-                <input type="hidden" value="{{ terapeuta.id }}" id="_idTerapeuta" name="_idTerapeuta" required />
+                <input type="hidden" value="{{ request.user.id }}" id="terapeuta" name="terapeuta" required />
                 <div class="input-container">
-                    <label for="_idPaciente">Paciente:</label>
-                    <select id="_idPaciente" name="_idPaciente">
+                    <label for="paciente">Paciente:</label>
+                    <select id="paciente" name="paciente">
                         {% for paciente in pacientes %}
                         <option value="{{ paciente.idPaciente }}">{{ paciente.nome }}</option>
                         {% endfor %}
@@ -144,21 +242,50 @@
         <hr />
         <section>
             <h2>Consultas Agendadas</h2>
+            <button id="enviar-lembretes">Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span></button>
+            <div id="lembrete-feedback"></div>
             <table>
                 <thead>
                     <tr>
                         <th>Paciente</th>
                         <th>Data da Consulta</th>
+                        <th>Status</th>
+                        <th>Lembrete</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for agenda in consultas %}
-                    <tr>
-                        <td>{{ agenda.name }}</td>
-                        <td>{{ agenda.date }}</td>
+                <tbody id="tabela-consultas">
+                    {% for consulta in consultas %}
+                    <tr data-id="{{ consulta.id_agenda }}" data-date="{{ consulta.date|date:'Y-m-d H:i:s' }}" class="consulta-row">
+                        <td>{{ consulta.name }}</td>
                         <td>
-                            <form action="{% url 'deletar_consulta' agenda.id_agenda %}" method="post">
+                            {{ consulta.date }}
+                            <div class="dias-restantes" style="display:none;"></div>
+                        </td>
+                        <td>
+                            {% if consulta.confirmada %}
+                                Confirmada
+                            {% else %}
+                                Pendente
+                            {% endif %}
+                        </td>
+                        <td class="status-lembrete">
+                            {% if consulta.status_lembrete %}
+                                {% if consulta.status_lembrete == "Enviado" %}
+                                    <span class="status-enviado">{{ consulta.status_lembrete }}</span>
+                                {% elif consulta.status_lembrete == "Aguardando envio" %}
+                                    <span class="status-aguardando">{{ consulta.status_lembrete }}</span>
+                                {% elif consulta.status_lembrete == "Não enviado" %}
+                                    <span class="status-nao-aplicavel">{{ consulta.status_lembrete }}</span>
+                                {% else %}
+                                    <span class="status-falha">{{ consulta.status_lembrete }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="status-nao-aplicavel">Não enviado</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form action="{% url 'deletar_consulta' consulta.id_agenda %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="remove-button">Excluir</button>
                             </form>
@@ -170,9 +297,113 @@
         </section>
     </div>
     <script>
-        const terapeuta = document.getElementById("_idTerapeuta");
-        const terapeutaLocalsStorage = localStorage.getItem("trabalho_agenda_terapeutaId") || "";
-        if (terapeutaLocalsStorage) terapeuta.value = terapeutaLocalsStorage;
+        // Função para calcular e exibir os dias restantes para consultas futuras
+        function atualizarDiasRestantes() {
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            
+            document.querySelectorAll('.consulta-row').forEach(row => {
+                const dataConsulta = new Date(row.getAttribute('data-date'));
+                dataConsulta.setHours(0, 0, 0, 0);
+                
+                // Calcular a diferença em dias
+                const diffTime = dataConsulta - hoje;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const diasRestantesElement = row.querySelector('.dias-restantes');
+                
+                // Se a consulta for futura e tiver mais de 2 dias
+                if (diffDays > 2) {
+                    row.classList.add('consulta-futura');
+                    diasRestantesElement.textContent = `Faltam ${diffDays} dias`;
+                    diasRestantesElement.style.display = 'inline-block';
+                } 
+                // Consulta é amanhã
+                else if (diffDays === 1) {
+                    diasRestantesElement.textContent = 'AMANHÃ';
+                    diasRestantesElement.style.backgroundColor = '#28a745';
+                    diasRestantesElement.style.display = 'inline-block';
+                }
+                // Consulta é hoje
+                else if (diffDays === 0) {
+                    diasRestantesElement.textContent = 'HOJE';
+                    diasRestantesElement.style.backgroundColor = '#dc3545';
+                    diasRestantesElement.style.display = 'inline-block';
+                }
+            });
+        }
+        
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', atualizarDiasRestantes);
+
+        document.getElementById('enviar-lembretes').addEventListener('click', function() {
+            const botao = this;
+            botao.disabled = true;
+            botao.textContent = 'Enviando...';
+
+            // Limpa os status de lembrete anteriores apenas para consultas que estão aguardando
+            document.querySelectorAll('.status-lembrete').forEach(td => {
+                if (td.textContent.trim() === 'Não enviado') {
+                    td.innerHTML = '<span class="enviando-mensagem">Enviando mensagem</span>';
+                }
+            });
+
+            // Cria um elemento de feedback
+            const feedbackDiv = document.getElementById('lembrete-feedback');
+            feedbackDiv.textContent = 'Enviando lembretes por WhatsApp para consultas de amanhã. Por favor, aguarde...';
+            feedbackDiv.style.backgroundColor = '#f8f9fa';
+            feedbackDiv.style.color = '#000';
+
+            fetch("{% url 'enviar_lembretes' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                feedbackDiv.textContent = data.status;
+                feedbackDiv.style.backgroundColor = '#d4edda';
+                feedbackDiv.style.color = '#155724';
+                botao.disabled = false;
+                botao.innerHTML = 'Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span>';
+
+                // Atualiza os status de lembretes baseado na resposta
+                if (data.detalhes) {
+                    data.detalhes.forEach(detalhe => {
+                        const tr = document.querySelector(`tr[data-id="${detalhe.id_agenda}"]`);
+                        if (tr) {
+                            const statusTd = tr.querySelector('.status-lembrete');
+                            if (detalhe.enviado) {
+                                statusTd.innerHTML = '<span class="status-enviado">Enviado</span>';
+                            } else {
+                                statusTd.innerHTML = `<span class="status-falha">Falha: ${detalhe.erro || 'Erro desconhecido'}</span>`;
+                            }
+                        }
+                    });
+                }
+
+                // Remove o feedback após 10 segundos
+                setTimeout(() => {
+                    feedbackDiv.textContent = '';
+                    feedbackDiv.style.backgroundColor = '';
+                    feedbackDiv.style.color = '';
+                }, 10000);
+            })
+            .catch(error => {
+                feedbackDiv.textContent = 'Erro ao enviar lembretes. Tente novamente.';
+                feedbackDiv.style.backgroundColor = '#f8d7da';
+                feedbackDiv.style.color = '#721c24';
+                botao.disabled = false;
+                botao.innerHTML = 'Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span>';
+                
+                // Redefine os status que ainda estão como "Enviando mensagem"
+                document.querySelectorAll('.status-lembrete .enviando-mensagem').forEach(span => {
+                    span.parentElement.innerHTML = '<span class="status-nao-aplicavel">Não enviado</span>';
+                });
+            });
+        });
     </script>
 </body>
-</html>
+</html

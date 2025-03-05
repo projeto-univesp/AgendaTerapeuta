@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from decouple import config, Csv
 from dj_database_url import parse as db_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,15 +85,16 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AgendaTerapeuta',  # Nome do banco de dados que você criou
-        'USER': 'postgres',     # Usuário do PostgreSQL
-        'PASSWORD': 'projeto',   # Senha do PostgreSQL
-        'HOST': 'localhost',       # Ou o IP do servidor onde o banco está hospedado
-        'PORT': '5432',            # Porta do PostgreSQL, geralmente é 5432
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'dbagendaterapeuta',
+       'USER': 'postgres',
+       'PASSWORD': 'saltoprojetoUNIVESP78terapeuta5tela',
+       'HOST': 'agenta-terapeuta-univesp.crmagsye2zoo.us-east-2.rds.amazonaws.com',
+       'PORT': '5432',
+   }
 }
+
 
 
 # Password validation

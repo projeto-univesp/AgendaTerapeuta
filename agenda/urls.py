@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import agenda, criar_consulta, deletar_consulta
+from . import views
 
 urlpatterns = [
-    path('', agenda, name='agenda'),
-    path('criar_consulta/', criar_consulta, name='criar_consulta'),
-    path('deletar_consulta/<int:id_agenda>/', deletar_consulta, name='deletar_consulta'),
+    path('', views.agenda, name='agenda'),  # Rota para a página principal da agenda
+    path('criar_consulta/', views.criar_consulta, name='criar_consulta'),
+    path('deletar_consulta/<int:id_agenda>/', views.deletar_consulta, name='deletar_consulta'),
+    path('enviar_lembretes/', views.enviar_lembretes, name='enviar_lembretes'),
 ]
