@@ -1,409 +1,884 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minha Agenda</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            position: relative;
-            overflow: auto;
-        }
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 800px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-        .container h1 {
-            background-color: #007bff;
-            color: white;
-            padding: 20px 0;
-            margin: -40px -40px 20px -40px;
-            border-radius: 10px 10px 0 0;
-            font-size: 24px;
-        }
-        .container h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .input-container > label {
-            font-size: 18px;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        .input-container > input,
-        .input-container > select {
-            padding: 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .container button {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 18px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-        .container button:hover {
-            background-color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-            font-size: 16px;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-        .remove-button {
-            background-color: #ff0000;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .remove-button:hover {
-            background-color: #b30000;
-        }
-        .back-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            transition: background-color 0.3s ease;
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
-        }
-        #lembrete-feedback {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: center;
-        }
-        .status-enviado {
-            color: #28a745;
-            font-weight: bold;
-        }
-        .status-falha {
-            color: #dc3545;
-            font-weight: bold;
-        }
-        .status-aguardando {
-            color: #6c757d;
-            font-style: italic;
-        }
-        .status-nao-aplicavel {
-            color: #6c757d;
-        }
-        .info-badge {
-            background-color: #17a2b8;
-            color: white;
-            border-radius: 4px;
-            padding: 5px 10px;
-            margin-left: 10px;
-            font-size: 14px;
-        }
-        /* Novos estilos para dias restantes */
-        .dias-restantes {
-            background-color: #007bff;
-            color: white;
-            border-radius: 4px;
-            padding: 3px 8px;
-            font-size: 14px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        .consulta-futura {
-            background-color: rgba(0, 123, 255, 0.1);
-        }
-        /* Estilos para animação de envio */
-        @keyframes sendingDots {
-            0% { content: '.'; }
-            33% { content: '..'; }
-            66% { content: '...'; }
-            100% { content: ''; }
-        }
-        .enviando-mensagem {
-            position: relative;
-            display: inline-block;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .enviando-mensagem::after {
-            content: '';
-            display: inline-block;
-            animation: sendingDots 1.5s infinite;
-            width: 20px;
-            text-align: left;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            .container h1 {
-                font-size: 20px;
-                padding: 15px 0;
-                margin: -20px -20px 15px -20px;
-            }
-            .container h2 {
-                font-size: 18px;
-            }
-            .input-container > label {
-                font-size: 16px;
-            }
-            .input-container > input,
-            .input-container > select {
-                padding: 10px;
-                font-size: 14px;
-            }
-            .container button {
-                font-size: 16px;
-                padding: 12px;
-            }
-            th,
-            td {
-                padding: 10px;
-                font-size: 14px;
-            }
-        }
-    </style>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Minha Agenda</title>
+ <style>
+ body {
+ font-family: Arial, sans-serif;
+ background-color: #f2f2f2;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ margin: 0;
+ position: relative;
+ }
+ 
+.container {
+ background-color: white;
+ padding: 40px;
+ border-radius: 10px;
+ box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+ width: 90%;
+ max-width: 1000px;
+ margin: 20px auto;
+ }
+ 
+.back-btn {
+ display: none;
+ }
+ 
+h1, h2 {
+ color: #333;
+ margin-top: 0;
+ }
+ 
+h1 {
+ background-color: #007bff;
+ color: white;
+ padding: 20px;
+ margin: -40px -40px 20px -40px;
+ border-radius: 10px 10px 0 0;
+ text-align: center;
+ }
+ 
+.input-container {
+ margin-bottom: 20px;
+ }
+ 
+.input-container label {
+ display: block;
+ margin-bottom: 5px;
+ font-weight: bold;
+ color: #555;
+ }
+ 
+.input-container input,
+ .input-container select {
+ width: 100%;
+ padding: 12px;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ font-size: 16px;
+ box-sizing: border-box;
+ }
+ 
+button[type="submit"] {
+ background-color: #007bff;
+ color: white;
+ border: none;
+ padding: 15px;
+ border-radius: 5px;
+ font-size: 18px;
+ cursor: pointer;
+ width: 100%;
+ transition: background-color 0.3s;
+ }
+ 
+button[type="submit"]:hover {
+ background-color: #0056b3;
+ }
+ 
+hr {
+ border: 0;
+ height: 1px;
+ background-color: #ddd;
+ margin: 30px 0;
+ }
+ 
+.manual-envio-wrapper {
+ flex: 1;
+ }
+ 
+.manual-envio-title {
+ font-weight: bold;
+ color: #495057;
+ margin-bottom: 8px;
+ display: block;
+ }
+ 
+.manual-envio-controls {
+ display: flex;
+ gap: 10px;
+ align-items: center;
+ }
+ 
+#dias-antecedencia {
+ padding: 12px;
+ border-radius: 5px;
+ font-size: 16px;
+ border: 1px solid #ced4da;
+ flex: 1;
+ max-width: 200px;
+ background-color: white;
+ }
+ 
+#enviar-lembretes {
+ padding: 12px 20px;
+ min-width: 120px;
+ background-color: #28a745;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s;
+ }
+ 
+#enviar-lembretes:hover {
+ background-color: #218838;
+ }
+ 
+#lembrete-feedback {
+ margin: 15px 0;
+ padding: 10px;
+ border-radius: 5px;
+ text-align: center;
+ }
+ 
+table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 20px;
+ }
+ 
+th, td {
+ padding: 12px;
+ text-align: center;
+ border: 1px solid #dee2e6;
+ }
+ 
+th {
+ background-color: #007bff;
+ color: white;
+ }
+ 
+.remove-button {
+ background-color: #dc3545;
+ color: white;
+ border: none;
+ padding: 8px 12px;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s;
+ }
+ 
+.remove-button:hover {
+ background-color: #c82333;
+ }
+ 
+.status-enviado {
+ color: #28a745;
+ font-weight: bold;
+ }
+ 
+.status-falha {
+ color: #dc3545;
+ font-weight: bold;
+ }
+ 
+.status-aguardando {
+ color: #6c757d;
+ font-style: italic;
+ }
+ 
+.status-pendente {
+ color: #dc3545;
+ font-weight: bold;
+ }
+ 
+.status-nao-aplicavel {
+ color: #6c757d;
+ }
+ 
+.dias-restantes {
+ background-color: #007bff;
+ color: white;
+ border-radius: 4px;
+ padding: 3px 8px;
+ font-size: 14px;
+ display: inline-block;
+ margin-top: 5px;
+ }
+ 
+.dias-restantes.amanha {
+ background-color: #28a745;
+ }
+ 
+.dias-restantes.hoje {
+ background-color: #dc3545;
+ }
+ 
+.dias-restantes.2-dias {
+ background-color: #ffc107;
+ color: #212529;
+ }
+ 
+.dias-restantes.passou {
+ background-color: #6c757d;
+ }
+ 
+.consultas-header {
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ 
+.countdown-container {
+  display: none;
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #ced4da;
+}
+
+.countdown-timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #dc3545;
+  margin: 0 5px;
+}
+
+.countdown-message {
+  margin-bottom: 10px;
+  color: #495057;
+}
+
+.loading-dots {
+  display: inline-block;
+}
+
+.loading-dots:after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #007bff;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+.auto-sending-flag {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: #ffc107;
+  color: #212529;
+  border-radius: 4px;
+  font-size: 14px;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.envio-timer-container {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #f0f8ff;
+  border-radius: 5px;
+  border: 1px solid #b8daff;
+  display: none;
+}
+
+.envio-timer {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+@media (max-width: 768px) {
+ .container {
+ padding: 20px;
+ }
+ 
+ h1 {
+ margin: -20px -20px 20px -20px;
+ padding: 15px;
+ font-size: 20px;
+ }
+ 
+ .manual-envio-controls {
+ flex-direction: column;
+ align-items: stretch;
+ gap: 5px;
+ }
+ 
+ #dias-antecedencia {
+ max-width: 100%;
+ }
+ 
+ #enviar-lembretes {
+ width: 100%;
+ }
+ 
+ th, td {
+ padding: 8px;
+ font-size: 14px;
+ }
+}
+ </style>
 </head>
 <body>
-    <a class="back-btn" href="/home">Voltar</a>
-    <div class="container">
-        <h1>Criar Nova Consulta</h1>
-        <section>
-            <form action="{% url 'criar_consulta' %}" method="POST">
-                {% csrf_token %}
-                <div class="input-container">
-                    <label for="data_consulta">Data da Consulta:</label>
-                    <input type="datetime-local" id="data_consulta" name="date" required />
-                </div>
-                <input type="hidden" value="{{ request.user.id }}" id="terapeuta" name="terapeuta" required />
-                <div class="input-container">
-                    <label for="paciente">Paciente:</label>
-                    <select id="paciente" name="paciente">
-                        {% for paciente in pacientes %}
-                        <option value="{{ paciente.idPaciente }}">{{ paciente.nome }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <button type="submit">Salvar Consulta</button>
-            </form>
-        </section>
-        <hr />
-        <section>
-            <h2>Consultas Agendadas</h2>
-            <button id="enviar-lembretes">Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span></button>
-            <div id="lembrete-feedback"></div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Paciente</th>
-                        <th>Data da Consulta</th>
-                        <th>Status</th>
-                        <th>Lembrete</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-consultas">
-                    {% for consulta in consultas %}
-                    <tr data-id="{{ consulta.id_agenda }}" data-date="{{ consulta.date|date:'Y-m-d H:i:s' }}" class="consulta-row">
-                        <td>{{ consulta.name }}</td>
-                        <td>
-                            {{ consulta.date }}
-                            <div class="dias-restantes" style="display:none;"></div>
-                        </td>
-                        <td>
-                            {% if consulta.confirmada %}
-                                Confirmada
-                            {% else %}
-                                Pendente
-                            {% endif %}
-                        </td>
-                        <td class="status-lembrete">
-                            {% if consulta.status_lembrete %}
-                                {% if consulta.status_lembrete == "Enviado" %}
-                                    <span class="status-enviado">{{ consulta.status_lembrete }}</span>
-                                {% elif consulta.status_lembrete == "Aguardando envio" %}
-                                    <span class="status-aguardando">{{ consulta.status_lembrete }}</span>
-                                {% elif consulta.status_lembrete == "Não enviado" %}
-                                    <span class="status-nao-aplicavel">{{ consulta.status_lembrete }}</span>
-                                {% else %}
-                                    <span class="status-falha">{{ consulta.status_lembrete }}</span>
-                                {% endif %}
-                            {% else %}
-                                <span class="status-nao-aplicavel">Não enviado</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <form action="{% url 'deletar_consulta' consulta.id_agenda %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="remove-button">Excluir</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-    </div>
-    <script>
-        // Função para calcular e exibir os dias restantes para consultas futuras
-        function atualizarDiasRestantes() {
-            const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
+ <div class="auto-sending-flag" id="auto-sending-flag">
+   <span>Verificando lembretes automáticos...</span>
+ </div>
+ 
+ <div class="container">
+ <h1>Criar Nova Consulta</h1>
+ 
+<form action="{% url 'criar_consulta' %}" method="POST">
+ {% csrf_token %}
+ <div class="input-container">
+ <label for="data_consulta">Data da Consulta:</label>
+ <input type="datetime-local" id="data_consulta" name="date" required>
+ </div>
+ 
+<div class="input-container">
+ <label for="paciente">Paciente:</label>
+ <select id="paciente" name="paciente" required>
+ <option value="">Selecione um paciente</option>
+ {% for paciente in pacientes %}
+ <option value="{{ paciente.idPaciente }}">{{ paciente.nome }}</option>
+ {% endfor %}
+ </select>
+ </div>
+ 
+<div class="input-container">
+ <label for="horario_lembrete">Horário do Lembrete:</label>
+ <select id="horario_lembrete" name="horario_lembrete" required>
+   <option value="09:00">09:00</option>
+   <option value="10:00">10:00</option>
+   <option value="11:00">11:00</option>
+   <option value="12:00">12:00</option>
+   <option value="13:00">13:00</option>
+   <option value="14:00">14:00</option>
+   <option value="15:00">15:00</option>
+   <option value="16:00" selected>16:00</option>
+   <option value="17:00">17:00</option>
+   <option value="18:00">18:00</option>
+   <option value="19:00">19:00</option>
+   <option value="20:00">20:00</option>
+ </select>
+ <small>Horário em que o lembrete será enviado no dia anterior à consulta</small>
+ <div class="envio-timer-container" id="envio-timer-container">
+   <span>Próximo envio em: <span class="envio-timer" id="envio-timer">--:--:--</span></span>
+ </div>
+ </div>
+ 
+<button type="submit">Salvar Consulta</button>
+ </form>
+ 
+<hr>
+ 
+<section>
+ <div class="consultas-header">
+ <h2>Consultas Agendadas</h2>
+ </div>
+ 
+<div class="manual-envio-wrapper">
+ <span class="manual-envio-title">Enviar lembretes manualmente para:</span>
+ <div class="manual-envio-controls">
+ <select id="dias-antecedencia">
+ <option value="1" selected>Consultas de amanhã</option>
+ <option value="2">Consultas em 2 dias</option>
+ <option value="3">Consultas em 3 dias</option>
+ <option value="7">Consultas em 1 semana</option>
+ </select>
+ <button id="enviar-lembretes">Enviar</button>
+ </div>
+ </div>
+ 
+<div id="lembrete-feedback"></div>
+
+<div class="countdown-container" id="countdown-container">
+  <div class="countdown-message">
+    Preparando envio de lembretes<span class="loading-dots"></span>
+  </div>
+  <div>
+    <span>Tempo restante: </span>
+    <span class="countdown-timer" id="countdown-timer">60</span>
+    <span> segundos</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+  </div>
+</div>
+ 
+{% if consultas %}
+ <div style="overflow-x: auto;">
+ <table>
+ <thead>
+ <tr>
+ <th>Paciente</th>
+ <th>Data da Consulta</th>
+ <th>Status</th>
+ <th>Horário Lembrete</th>
+ <th>Status Lembrete</th>
+ <th>Ações</th>
+ </tr>
+ </thead>
+ <tbody id="tabela-consultas">
+ {% for consulta in consultas %}
+ <tr data-id="{{ consulta.id_agenda }}" data-date="{{ consulta.date|date:'Y-m-d H:i:s' }}" class="consulta-row">
+ <td>{{ consulta.name }}</td>
+ <td>
+ {{ consulta.date }}
+ <div class="dias-restantes"></div>
+ </td>
+ <td>
+ {% if consulta.confirmada %}
+ <span class="status-enviado">Confirmada</span>
+ {% else %}
+ <span class="status-falha">Pendente</span>
+ {% endif %}
+ </td>
+ <td class="valor-horario">
+  <span class="horario-consulta">{{ consulta.horario_lembrete }}</span>
+ </td>
+ <td class="status-lembrete">
+ {% if consulta.status_lembrete == "Enviado" %}
+<span class="status-enviado">{{ consulta.status_lembrete }}</span>
+ {% elif consulta.status_lembrete == "Aguardando envio" %}
+ <span class="status-pendente">Pendente de envio <span class="dias-para-envio"></span></span>
+ {% elif consulta.status_lembrete and "Falha:" in consulta.status_lembrete %}
+ <span class="status-falha">{{ consulta.status_lembrete }}</span>
+ {% else %}
+ <span class="status-nao-aplicavel">Não enviado</span>
+ {% endif %}
+ </td>
+ <td>
+ <form action="{% url 'deletar_consulta' consulta.id_agenda %}" method="post">
+ {% csrf_token %}
+ <button type="submit" class="remove-button">Excluir</button>
+ </form>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ </div>
+ {% else %}
+ <p style="text-align: center; margin-top: 20px;">Nenhuma consulta agendada.</p>
+ {% endif %}
+ </section>
+ </div>
+
+<script>
+ // Variável global para armazenar o horário selecionado
+ let horarioSelecionado = '16:00';
+
+ function salvarHorarioLembrete() {
+     horarioSelecionado = document.getElementById('horario_lembrete').value;
+     if (horarioSelecionado) {
+         localStorage.setItem('horarioLembreteSalvo', horarioSelecionado);
+         // Atualizar todos os horários na tabela
+         document.querySelectorAll('.horario-consulta').forEach(element => {
+             element.textContent = horarioSelecionado;
+         });
+     }
+ }
+
+ function carregarHorarioLembrete() {
+     const horarioSalvo = localStorage.getItem('horarioLembreteSalvo');
+     if (horarioSalvo) {
+         // Verificar se o valor salvo existe nas opções
+         const opcoes = document.getElementById('horario_lembrete').options;
+         let encontrado = false;
+         
+         for (let i = 0; i < opcoes.length; i++) {
+             if (opcoes[i].value === horarioSalvo) {
+                 opcoes[i].selected = true;
+                 horarioSelecionado = horarioSalvo;
+                 encontrado = true;
+                 break;
+             }
+         }
+         
+         // Se não encontrar nas opções, selecionar o padrão (16:00)
+         if (!encontrado) {
+             document.querySelector('option[value="16:00"]').selected = true;
+             horarioSelecionado = '16:00';
+         }
+     }
+     
+     // Atualizar todos os horários na tabela
+     document.querySelectorAll('.horario-consulta').forEach(element => {
+         element.textContent = horarioSelecionado;
+     });
+     
+     // Iniciar timer de envio do lembrete
+     atualizarTimerEnvio();
+ }
+
+ function atualizarTimerEnvio() {
+     const horarioSelecionado = document.getElementById('horario_lembrete').value;
+     const timerContainer = document.getElementById('envio-timer-container');
+     const timerElement = document.getElementById('envio-timer');
+     
+     if (!horarioSelecionado) return;
+     
+     // Obter a data atual
+     const agora = new Date();
+     const amanha = new Date();
+     amanha.setDate(amanha.getDate() + 1);
+     
+     // Configurar a data/hora do lembrete
+     const [horas, minutos] = horarioSelecionado.split(':');
+     const dataLembrete = new Date();
+     
+     dataLembrete.setHours(parseInt(horas, 10), parseInt(minutos, 10), 0, 0);
+     
+     // Se a hora já passou hoje, use o mesmo horário amanhã
+     if (dataLembrete < agora) {
+         dataLembrete.setDate(dataLembrete.getDate() + 1);
+     }
+     
+     // Calcular a diferença de tempo
+     const diferenca = dataLembrete - agora;
+     
+     // Exibir o timer apenas se for para hoje ou amanhã (menos de 48 horas)
+     if (diferenca <= 48 * 60 * 60 * 1000) {
+         timerContainer.style.display = 'block';
+         
+         // Atualizar o timer a cada segundo
+         const atualizarContagem = () => {
+             const agora = new Date();
+             const diferenca = dataLembrete - agora;
+             
+             if (diferenca <= 0) {
+                 timerElement.textContent = "Enviando agora!";
+                 setTimeout(() => {
+                     // Reiniciar o timer para o próximo dia
+                     dataLembrete.setDate(dataLembrete.getDate() + 1);
+                     atualizarContagem();
+                 }, 60000); // Verificar novamente em 1 minuto
+                 return;
+             }
+             
+             // Calcular horas, minutos e segundos
+             const horas = Math.floor(diferenca / (1000 * 60 * 60));
+             const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+             const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+             
+             // Formatar a saída
+             timerElement.textContent = 
+                 `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+             
+             setTimeout(atualizarContagem, 1000);
+         };
+         
+         atualizarContagem();
+     } else {
+         timerContainer.style.display = 'none';
+     }
+ }
+
+ function atualizarDiasRestantes() {
+     const hoje = new Date();
+     hoje.setHours(0, 0, 0, 0);
+     
+    document.querySelectorAll('.consulta-row').forEach(row => {
+     const dataConsulta = new Date(row.getAttribute('data-date'));
+     dataConsulta.setHours(0, 0, 0, 0);
+     
+    const diffTime = dataConsulta - hoje;
+     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+     
+    const diasRestantesElement = row.querySelector('.dias-restantes');
+     
+    if (diffDays > 2) {
+         diasRestantesElement.textContent = `Faltam ${diffDays} dias`;
+         diasRestantesElement.className = 'dias-restantes';
+     } 
+     else if (diffDays === 2) {
+         diasRestantesElement.textContent = 'Faltam 2 dias';
+         diasRestantesElement.className = 'dias-restantes 2-dias';
+     }
+     else if (diffDays === 1) {
+         diasRestantesElement.textContent = 'AMANHÃ';
+         diasRestantesElement.className = 'dias-restantes amanha';
+     }
+     else if (diffDays === 0) {
+         diasRestantesElement.textContent = 'HOJE';
+         diasRestantesElement.className = 'dias-restantes hoje';
+     }
+     else if (diffDays < 0) {
+         diasRestantesElement.textContent = 'PASSOU';
+         diasRestantesElement.className = 'dias-restantes passou';
+     }
+     
+    const statusPendente = row.querySelector('.status-pendente');
+     if (statusPendente) {
+         const diasParaEnvio = row.querySelector('.dias-para-envio');
+         if (diasParaEnvio) {
+             if (diffDays > 1) {
+                 diasParaEnvio.textContent = `(${diffDays - 1} dias)`;
+             } else if (diffDays === 1) {
+                 diasParaEnvio.textContent = '(hoje)';
+             }
+         }
+     }
+     });
+ }
+
+function verificarLembretesAutomaticos() {
+    const agora = new Date();
+    const horaAtual = agora.getHours();
+    const minutoAtual = agora.getMinutes();
+    
+    // Verificar se há consultas agendadas para o dia seguinte
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const amanha = new Date(hoje);
+    amanha.setDate(amanha.getDate() + 1);
+    
+    const consultas = document.querySelectorAll('.consulta-row');
+    let consultasParaVerificar = false;
+    
+    consultas.forEach(row => {
+        const statusElement = row.querySelector('.status-lembrete');
+        const status = statusElement.textContent.trim();
+        
+        if (status.includes('Não enviado') || status.includes('Pendente')) {
+            // Verificar apenas consultas agendadas para o dia seguinte
+            const dataConsulta = new Date(row.getAttribute('data-date'));
+            const dataConsultaZerada = new Date(dataConsulta);
+            dataConsultaZerada.setHours(0, 0, 0, 0);
             
-            document.querySelectorAll('.consulta-row').forEach(row => {
-                const dataConsulta = new Date(row.getAttribute('data-date'));
-                dataConsulta.setHours(0, 0, 0, 0);
+            // Verificar se é consulta para amanhã especificamente
+            if (dataConsultaZerada.getTime() === amanha.getTime()) {
+                const [hora, minuto] = horarioSelecionado.split(':').map(n => parseInt(n, 10));
                 
-                // Calcular a diferença em dias
-                const diffTime = dataConsulta - hoje;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                // Verifica se o horário atual está dentro de uma janela de 2 minutos do horário configurado
+                const horaAtualMinutos = horaAtual * 60 + minutoAtual;
+                const lembreteMinutos = hora * 60 + minuto;
                 
-                const diasRestantesElement = row.querySelector('.dias-restantes');
-                
-                // Se a consulta for futura e tiver mais de 2 dias
-                if (diffDays > 2) {
-                    row.classList.add('consulta-futura');
-                    diasRestantesElement.textContent = `Faltam ${diffDays} dias`;
-                    diasRestantesElement.style.display = 'inline-block';
-                } 
-                // Consulta é amanhã
-                else if (diffDays === 1) {
-                    diasRestantesElement.textContent = 'AMANHÃ';
-                    diasRestantesElement.style.backgroundColor = '#28a745';
-                    diasRestantesElement.style.display = 'inline-block';
+                if (Math.abs(horaAtualMinutos - lembreteMinutos) <= 2) {
+                    consultasParaVerificar = true;
+                    document.getElementById('auto-sending-flag').style.display = 'block';
+                    
+                    console.log(`Verificação automática acionada para consulta ${row.getAttribute('data-id')}`);
+                    console.log(`Data da consulta: ${dataConsultaZerada.toLocaleDateString()}, Dia de amanhã: ${amanha.toLocaleDateString()}`);
+                    console.log(`Horário atual: ${horaAtual}:${minutoAtual}, Horário lembrete: ${hora}:${minuto}`);
+                    
+                    // Enviar imediatamente ao invés de esperar 60 segundos
+                    enviarLembretesAutomaticos(1);  // 1 dia de antecedência (amanhã)
+                    
+                    // Atualizar visualmente o status para "Aguardando envio"
+                    if (statusElement && status.includes('Não enviado')) {
+                        statusElement.innerHTML = '<span class="status-pendente">Aguardando envio</span>';
+                    }
                 }
-                // Consulta é hoje
-                else if (diffDays === 0) {
-                    diasRestantesElement.textContent = 'HOJE';
-                    diasRestantesElement.style.backgroundColor = '#dc3545';
-                    diasRestantesElement.style.display = 'inline-block';
+            }
+        }
+    });
+    
+    if (consultasParaVerificar) {
+        console.log("Verificação automática ativada para consultas de amanhã");
+    }
+}
+
+function enviarLembretesAutomaticos(diasAntecedencia) {
+    const feedbackDiv = document.getElementById('lembrete-feedback');
+    feedbackDiv.textContent = `Enviando lembretes automáticos para consultas em ${diasAntecedencia} dia(s)...`;
+    feedbackDiv.style.backgroundColor = '#f8f9fa';
+    feedbackDiv.style.color = '#000';
+    
+    // Chamar endpoint de verificação manual para garantir que o sistema tente enviar 
+    fetch('/agenda/verificar_lembretes_manual/', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Erro na resposta do servidor');
+        return response.json();
+    })
+    .then(data => {
+        console.log("Resposta da verificação manual:", data);
+        
+        // Atualizar feedback na interface
+        feedbackDiv.innerHTML = data.status;
+        
+        if (data.consultasProcessadas > 0) {
+            feedbackDiv.style.backgroundColor = '#d4edda';
+            feedbackDiv.style.color = '#155724';
+        } else {
+            feedbackDiv.style.backgroundColor = '#fff3cd';
+            feedbackDiv.style.color = '#856404';
+        }
+        
+        // Atualizar status na tabela
+        if (data.resultados && data.resultados.length > 0) {
+            data.resultados.forEach(resultado => {
+                const tr = document.querySelector(`tr[data-id="${resultado.id}"]`);
+                if (tr) {
+                    const statusTd = tr.querySelector('.status-lembrete');
+                    if (resultado.status.includes('Enviado')) {
+                        statusTd.innerHTML = '<span class="status-enviado">Enviado</span>';
+                    } else {
+                        statusTd.innerHTML = `<span class="status-falha">${resultado.status}</span>`;
+                    }
                 }
             });
         }
         
-        // Executar quando a página carregar
-        document.addEventListener('DOMContentLoaded', atualizarDiasRestantes);
+        // Esconder flag após concluir
+        document.getElementById('auto-sending-flag').style.display = 'none';
+        
+        setTimeout(() => {
+            feedbackDiv.textContent = '';
+            feedbackDiv.style.backgroundColor = '';
+            feedbackDiv.style.color = '';
+        }, 10000);
+    })
+    .catch(erro => {
+        console.error('Erro na verificação automática:', erro);
+        feedbackDiv.textContent = 'Erro ao verificar lembretes automáticos.';
+        feedbackDiv.style.backgroundColor = '#f8d7da';
+        feedbackDiv.style.color = '#721c24';
+        document.getElementById('auto-sending-flag').style.display = 'none';
+    });
+}
 
-        document.getElementById('enviar-lembretes').addEventListener('click', function() {
-            const botao = this;
-            botao.disabled = true;
-            botao.textContent = 'Enviando...';
+function mostrarContagemRegressiva() {
+    const countdownContainer = document.getElementById('countdown-container');
+    const countdownTimer = document.getElementById('countdown-timer');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    
+    countdownContainer.style.display = 'block';
+    
+    let segundosRestantes = 60; // 60 segundos para produção
+    
+    progressBarFill.style.width = '0%';
+    
+    const intervalo = setInterval(() => {
+        segundosRestantes--;
+        countdownTimer.textContent = segundosRestantes;
+        
+        const porcentagemConcluida = 100 - ((segundosRestantes / 60) * 100);
+        progressBarFill.style.width = porcentagemConcluida + '%';
+        
+        if (segundosRestantes <= 0) {
+            clearInterval(intervalo);
+            countdownContainer.style.display = 'none';
+            document.getElementById('auto-sending-flag').style.display = 'none';
+        }
+    }, 1000);
+}
 
-            // Limpa os status de lembrete anteriores apenas para consultas que estão aguardando
-            document.querySelectorAll('.status-lembrete').forEach(td => {
-                if (td.textContent.trim() === 'Não enviado') {
-                    td.innerHTML = '<span class="enviando-mensagem">Enviando mensagem</span>';
-                }
-            });
+function enviarLembretes() {
+     const botao = document.getElementById('enviar-lembretes');
+     const diasAntecedencia = document.getElementById('dias-antecedencia').value;
+     
+    botao.disabled = true;
+    botao.textContent = 'Enviando...';
+    
+    mostrarContagemRegressiva();
+    
+    const feedbackDiv = document.getElementById('lembrete-feedback');
+    feedbackDiv.textContent = `Preparando envio para consultas em ${diasAntecedencia} dia(s)...`;
+    feedbackDiv.style.backgroundColor = '#f8f9fa';
+    feedbackDiv.style.color = '#000';
 
-            // Cria um elemento de feedback
-            const feedbackDiv = document.getElementById('lembrete-feedback');
-            feedbackDiv.textContent = 'Enviando lembretes por WhatsApp para consultas de amanhã. Por favor, aguarde...';
-            feedbackDiv.style.backgroundColor = '#f8f9fa';
-            feedbackDiv.style.color = '#000';
+    document.querySelectorAll('.status-lembrete').forEach(td => {
+        if (td.textContent.trim() === 'Não enviado') {
+            td.innerHTML = '<span class="status-pendente">Pendente de envio <span class="dias-para-envio"></span></span>';
+        }
+    });
+    
+    atualizarDiasRestantes();
 
-            fetch("{% url 'enviar_lembretes' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/json'
-                }
+    setTimeout(() => {
+        fetch("{% url 'enviar_lembretes' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dias_antecedencia: parseInt(diasAntecedencia),
+                modo: 'manual'
             })
-            .then(response => response.json())
-            .then(data => {
-                feedbackDiv.textContent = data.status;
-                feedbackDiv.style.backgroundColor = '#d4edda';
-                feedbackDiv.style.color = '#155724';
-                botao.disabled = false;
-                botao.innerHTML = 'Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span>';
-
-                // Atualiza os status de lembretes baseado na resposta
-                if (data.detalhes) {
-                    data.detalhes.forEach(detalhe => {
-                        const tr = document.querySelector(`tr[data-id="${detalhe.id_agenda}"]`);
-                        if (tr) {
-                            const statusTd = tr.querySelector('.status-lembrete');
-                            if (detalhe.enviado) {
-                                statusTd.innerHTML = '<span class="status-enviado">Enviado</span>';
-                            } else {
-                                statusTd.innerHTML = `<span class="status-falha">Falha: ${detalhe.erro || 'Erro desconhecido'}</span>`;
-                            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na resposta do servidor');
+            return response.json();
+        })
+        .then(data => {
+            feedbackDiv.innerHTML = data.status;
+            feedbackDiv.style.backgroundColor = data.enviados > 0 ? '#d4edda' : '#fff3cd';
+            feedbackDiv.style.color = data.enviados > 0 ? '#155724' : '#856404';
+            
+            // Atualizar status na tabela
+            if (data.detalhes && data.detalhes.length > 0) {
+                data.detalhes.forEach(detalhe => {
+                    const tr = document.querySelector(`tr[data-id="${detalhe.id_agenda}"]`);
+                    if (tr) {
+                        const statusTd = tr.querySelector('.status-lembrete');
+                        if (detalhe.enviado) {
+                            statusTd.innerHTML = '<span class="status-enviado">Enviado</span>';
+                        } else {
+                            statusTd.innerHTML = `<span class="status-falha">Falha: ${detalhe.erro || 'Erro desconhecido'}</span>`;
                         }
-                    });
-                }
-
-                // Remove o feedback após 10 segundos
-                setTimeout(() => {
-                    feedbackDiv.textContent = '';
-                    feedbackDiv.style.backgroundColor = '';
-                    feedbackDiv.style.color = '';
-                }, 10000);
-            })
-            .catch(error => {
-                feedbackDiv.textContent = 'Erro ao enviar lembretes. Tente novamente.';
-                feedbackDiv.style.backgroundColor = '#f8d7da';
-                feedbackDiv.style.color = '#721c24';
-                botao.disabled = false;
-                botao.innerHTML = 'Enviar Lembretes para Amanhã <span class="info-badge">Apenas consultas de amanhã</span>';
-                
-                // Redefine os status que ainda estão como "Enviando mensagem"
-                document.querySelectorAll('.status-lembrete .enviando-mensagem').forEach(span => {
-                    span.parentElement.innerHTML = '<span class="status-nao-aplicavel">Não enviado</span>';
+                    }
                 });
-            });
+            }
+            
+            botao.disabled = false;
+            botao.textContent = 'Enviar';
+        })
+        .catch(erro => {
+            console.error('Erro ao enviar lembretes:', erro);
+            feedbackDiv.textContent = 'Erro ao enviar lembretes. Por favor, tente novamente.';
+            feedbackDiv.style.backgroundColor = '#f8d7da';
+            feedbackDiv.style.color = '#721c24';
+            botao.disabled = false;
+            botao.textContent = 'Enviar';
         });
-    </script>
+    }, 1000);
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    carregarHorarioLembrete();
+    atualizarDiasRestantes();
+    
+    // Verificar lembretes automáticos a cada minuto
+    setInterval(verificarLembretesAutomaticos, 60000);
+    
+    // Atualizar dias restantes a cada hora
+    setInterval(atualizarDiasRestantes, 3600000);
+    
+    // Configurar evento de envio manual
+    document.getElementById('enviar-lembretes').addEventListener('click', enviarLembretes);
+    
+    // Atualizar timer e horários na tabela quando o horário do lembrete for alterado
+    document.getElementById('horario_lembrete').addEventListener('change', function() {
+        salvarHorarioLembrete();
+        atualizarTimerEnvio();
+    });
+});
+</script>
 </body>
-</html
+</html>
