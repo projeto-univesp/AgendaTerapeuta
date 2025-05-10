@@ -83,14 +83,16 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AgendaTerapeuta',  # Nome do banco de dados que você criou
-        'USER': 'postgres',     # Usuário do PostgreSQL
-        'PASSWORD': 'projeto',   # Senha do PostgreSQL
-        'HOST': 'localhost',       # Ou o IP do servidor onde o banco está hospedado
-        'PORT': '5432',            # Porta do PostgreSQL, geralmente é 5432
+        'NAME': os.getenv('POSTGRES_DB', 'dbagendaterapeuta'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'saltoprojetoUNIVESP78terapeuta5tela'),
+        'HOST': os.getenv('POSTGRES_HOST', 'agenta-terapeuta-univesp.crmagsye2zoo.us-east-2.rds.amazonaws.com'),
+        'PORT': '5432',
     }
 }
 
