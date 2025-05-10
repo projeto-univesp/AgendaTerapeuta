@@ -31,8 +31,8 @@ def cadastro(request): #request é uma solicitacao feita por quem está querendo
             # Exibir mensagem de erro se o terapeuta não for encontrado
             return render(request, 'login_pacientes/codigo_invalido.html', {'erro': 'Código de acesso inválido. Terapeuta não encontrado.'})
 
-        if User.objects.filter(email=email).exists():
-            return render(request, 'usuario_existente.html')
+        if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
+            return render(request, 'usuario_existente.html', {'erro': 'Este email já está cadastrado.'})
         
         user = User.objects.create_user(email=email, password=senha, username=email)
         # User é um modelo padrão do Django para representar usuários no sistema. Ele faz parte do módulo django.contrib.auth.models e contém campos como username, email, password, entre outros.
@@ -67,7 +67,7 @@ def login(request):
         else:
             return render(request, 'invalido.html')
 
-@login_required(login_url="/auth/login/pacientes/")
+#@login_required(login_url="/auth/login/pacientes/")
 def plataforma(request):
     url_home = reverse('home')
     return redirect(url_home)
