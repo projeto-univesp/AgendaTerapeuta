@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
     <title>Login</title>
+    <style>
+        /* Estilo para o destaque */
+        .highlight {
+            outline: 2px solid rgb(37, 161, 137);
+            outline-offset: 2px;
+        }
+    </style>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,5 +79,67 @@
         </form>
         <a href="{% url 'cadastro' %}">Não tem uma conta? Cadastre-se aqui</a>
     </div>
+     <!-- Botão que se move pela tela -->
+     <button id="movingButton" name="Botao Acessibilidade" style="
+     position: fixed;
+     bottom: 550px;
+     right: 40px;
+     background-color: transparent;
+     color: rgb(248, 246, 246);
+     border: none;
+     border-radius: 50%;
+     width: 80px;
+     height: 80px;
+     font-size: 20px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     outline: none; /* Remove a borda ao clicar */
+ ">
+     <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+ </button>
+<script>
+// Seleciona todos os elementos focáveis e visíveis na página
+const movingButton = document.getElementById('movingButton');
+const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+let currentIndex = 0;
+
+function highlightElement(element) {
+    element.classList.add('highlight');
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
+}
+
+function removeHighlight(element) {
+    element.classList.remove('highlight');
+}
+
+function speakText(text, element) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.onstart = () => highlightElement(element);
+    utterance.onend = () => removeHighlight(element);
+    speechSynthesis.speak(utterance);
+}
+
+movingButton.addEventListener('click', () => {
+    // Remove o destaque do elemento atual
+    if (currentIndex > 0) {
+        removeHighlight(elements[currentIndex - 1]);
+    }
+
+    // Avança para o próximo elemento
+    if (currentIndex < elements.length) {
+        const element = elements[currentIndex];
+        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+        if (text.trim()) {
+            speakText(text, element);
+        }
+        currentIndex++;
+    } else {
+        currentIndex = 0; // Reinicia a navegação ao final
+    }
+});
+</script>
 </body>
 </html>
