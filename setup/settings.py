@@ -13,7 +13,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY="django-insecure-945qo!=ur#h^=ap4(!l*==ffly$a+*pfhv3s_ilmt9$x=pg&)x"
 DEBUG = config("DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
