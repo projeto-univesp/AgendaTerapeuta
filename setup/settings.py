@@ -71,14 +71,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'setup.wsgi.application'
 
 # Database
+
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='dbagendaterapeuta'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='saltoprojetoUNIVESP78terapeuta5tela'),
-        'HOST': config('DB_HOST', default='agenta-terapeuta-univesp.crmagsye2zoo.us-east-2.rds.amazonaws.com'),
-        'PORT': config('DB_PORT', default='5432'),
+        'NAME': os.getenv('POSTGRES_DB', 'dbagendaterapeuta'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'saltoprojetoUNIVESP78terapeuta5tela'),
+        'HOST': os.getenv('POSTGRES_HOST', 'agenta-terapeuta-univesp.crmagsye2zoo.us-east-2.rds.amazonaws.com'),
+        'PORT': '5432',
     }
 }
 

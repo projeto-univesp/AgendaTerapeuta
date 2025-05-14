@@ -1,122 +1,132 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
     <title>Minha Agenda</title>
+    <link rel="stylesheet" href="estilo1.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            position: relative;
-            overflow: auto;
-        }
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-        .container h1 {
-            background-color: #007bff;
-            color: white;
-            padding: 20px 0;
-            margin: -40px -40px 20px -40px;
-            border-radius: 5px 5px 0 0;
-            font-size: 24px;
-        }
-        .container h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .input-container > label {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        .input-container > input,
-        .input-container > select {
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .container button {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 18px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .container button:hover {
-            background-color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-            font-size: 16px;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-        .remove-button {
-            background-color: #ff0000; /* Cor vermelha */
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .remove-button:hover {
-            background-color: #b30000; /* Cor vermelha mais escura */
-        }
-        .back-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
+        /* Estilo para o destaque */
+        .highlight {
+            outline: 2px solid rgb(37, 161, 137);
+            outline-offset: 2px;
         }
     </style>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        position: relative;
+        overflow: auto;
+    }
+    .container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 90%;
+        max-width: 500px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
+    .container h1 {
+        background-color: #007bff;
+        color: white;
+        padding: 20px 0;
+        margin: -40px -40px 20px -40px;
+        border-radius: 5px 5px 0 0;
+        font-size: 24px;
+    }
+    .container h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .input-container > label {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+    .input-container > input,
+    .input-container > select {
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .container button {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    .container button:hover {
+        background-color: #0056b3;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+        font-size: 16px;
+    }
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+    .remove-button {
+        background-color: #ff0000; /* Cor vermelha */
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .remove-button:hover {
+        background-color: #b30000; /* Cor vermelha mais escura */
+    }
+    .back-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+    .back-btn:hover {
+        background-color: #0056b3;
+    }
+</style> 
 </head>
 <body>
     <a class="back-btn" href="/home">Voltar</a>
@@ -163,5 +173,70 @@
         const terapeutaLocalsStorage = localStorage.getItem("trabalho_agenda_terapeutaId") || "";
         if (terapeutaLocalsStorage) terapeuta.value = terapeutaLocalsStorage;
     </script>
+     
+       <!-- Botão que se move pela tela -->
+    <button id="movingButton" name="Botao Acessibilidade" style="
+    position: fixed;
+    bottom: 550px;
+    right: 40px;
+    background-color: transparent;
+    color: rgb(248, 246, 246);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none; /* Remove a borda ao clicar */
+">
+    <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+</button>
+
+<script>
+// Seleciona todos os elementos focáveis e visíveis na página
+const movingButton = document.getElementById('movingButton');
+const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+
+let currentIndex = 0;
+
+function highlightElement(element) {
+    element.classList.add('highlight');
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
+}
+
+function removeHighlight(element) {
+    element.classList.remove('highlight');
+}
+
+function speakText(text, element) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.onstart = () => highlightElement(element);
+    utterance.onend = () => removeHighlight(element);
+    speechSynthesis.speak(utterance);
+}
+
+movingButton.addEventListener('click', () => {
+    // Remove o destaque do elemento atual
+    if (currentIndex > 0) {
+        removeHighlight(elements[currentIndex - 1]);
+    }
+
+    // Avança para o próximo elemento
+    if (currentIndex < elements.length) {
+        const element = elements[currentIndex];
+        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+        if (text.trim()) {
+            speakText(text, element);
+        }
+        currentIndex++;
+    } else {
+        currentIndex = 0; // Reinicia a navegação ao final
+    }
+});
+</script>
 </body>
 </html>

@@ -52,7 +52,7 @@ def login(request):
 
 
 
-@login_required(login_url="/auth/login/")
+#@login_required(login_url="/auth/login/")
 def plataforma():
     url_home = reverse('home')
     return redirect(url_home)
