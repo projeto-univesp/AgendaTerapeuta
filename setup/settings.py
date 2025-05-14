@@ -17,6 +17,10 @@ SECRET_KEY="django-insecure-945qo!=ur#h^=ap4(!l*==ffly$a+*pfhv3s_ilmt9$x=pg&)x"
 DEBUG = config("DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
 
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
