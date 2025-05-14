@@ -11,45 +11,45 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            position: relative; /* Adicionando posição relativa ao corpo */
+            position: relative;
         }
         .container {
             background-color: white;
-            padding: 40px; /* Aumentado de 20px para 40px */
+            padding: 40px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 400px; /* Aumentado de 300px para 400px */
+            width: 400px;
         }
         .container h1 {
-            background-color: #007bff; /* Azul original */
+            background-color: #007bff;
             color: white;
-            padding: 20px 0; /* Aumentado de 10px para 20px */
-            margin: -40px -40px 20px -40px; /* Aumentado de -20px para -40px */
+            padding: 20px 0;
+            margin: -40px -40px 20px -40px;
             border-radius: 5px 5px 0 0;
-            font-size: 24px; /* Aumentado o tamanho da fonte */
+            font-size: 24px;
         }
         .container button {
-            background-color: #007bff; /* Azul original */
+            background-color: #007bff;
             color: white;
-            padding: 15px 30px; /* Aumentado de 10px 20px para 15px 30px */
+            padding: 15px 30px;
             border: none;
             border-radius: 5px;
             text-decoration: none;
-            font-size: 18px; /* Aumentado de 16px para 18px */
+            font-size: 18px;
             cursor: pointer;
-            margin-bottom: 20px; /* Aumentado de 10px para 20px */
+            margin-bottom: 20px;
             display: block;
             width: 100%;
         }
         .container button:hover {
-            background-color: #0056b3; /* Cor mais clara para o efeito hover */
+            background-color: #0056b3;
         }
         .logout-btn {
-            position: absolute; /* Posicionamento absoluto */
-            top: 20px; /* Distância do topo */
-            right: 20px; /* Distância da direita */
-            background-color: #007bff; /* Azul original */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -59,7 +59,7 @@
             cursor: pointer;
         }
         .logout-btn:hover {
-            background-color: #0056b3; /* Cor mais clara para o efeito hover */
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -68,6 +68,7 @@
         <h1>Agenda Terapeuta</h1>
         <button onclick="window.location.href='/paciente/'">Cadastrar Pacientes</button>
         <button onclick="window.location.href='/agenda/'">Agendar Pacientes</button>
+        <button onclick="window.location.href='/dashboard/'">Graficos e Relatórios</button>
     </div>
     <a class="logout-btn" href="{% url 'logout' %}">Sair</a>
 </body>
