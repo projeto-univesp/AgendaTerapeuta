@@ -18,6 +18,7 @@ class Agenda(models.Model):
     
     date = models.DateTimeField("Data e Hora da Consulta")
     paciente = models.ForeignKey(CadastroPaciente, on_delete=models.CASCADE)
+    horario_lembrete = models.DateTimeField("Horário do Lembrete", null=True, blank=True)
     terapeuta = models.ForeignKey(User, on_delete=models.CASCADE)
     confirmada = models.BooleanField(default=False)
     status_lembrete = models.CharField(
@@ -25,7 +26,7 @@ class Agenda(models.Model):
         choices=STATUS_CHOICES,
         default='Não enviado'
     )
-    horario_lembrete = models.TimeField("Horário do Lembrete")
+
     valor_consulta = models.DecimalField(
         max_digits=10,
         decimal_places=2,

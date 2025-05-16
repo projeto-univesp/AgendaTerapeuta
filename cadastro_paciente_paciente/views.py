@@ -70,12 +70,12 @@ def pagina_cadastrar(request):
 
 @login_required()
 def pagina_cadastrar(request):
-    # Verifique se o paciente já está cadastrado para este terapeuta
-    paciente = CadastroPaciente.objects.filter(email=request.user.email).first()
+    paciente = CadastroPaciente.objects.filter(usuario=request.user).first()
     
     if request.method == 'POST':
         if paciente is None:
-            paciente = CadastroPaciente()
+            paciente = CadastroPaciente(usuario=request.user)  # <-- aqui é a correção!
+        
         paciente.nome = request.POST.get("nome")
         paciente.data_nascimento = request.POST.get("data_nascimento")
         paciente.sexo = request.POST.get("sexo")
@@ -88,11 +88,11 @@ def pagina_cadastrar(request):
         paciente.estado_civil = request.POST.get("estado_civil")
         paciente.profissao = request.POST.get("profissao")
         paciente.convenio = request.POST.get("convenio")
+        paciente.terapeuta = request.user  # ou setar corretamente aqui se for o terapeuta mesmo
         paciente.save()
 
         return render(request, "cadastro_paciente_paciente/home_paciente.html")
     
-    # Caso contrário, renderize a página de cadastro normalmente
     return render(request, "cadastro_paciente_paciente/cadastrar.html", {"paciente": paciente})
 
 @login_required()
