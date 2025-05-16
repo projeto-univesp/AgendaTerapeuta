@@ -16,17 +16,9 @@ def agenda(request):
     except CadastroPaciente.DoesNotExist:
         return redirect('completar_cadastro')
 
-    consultas = Agenda.objects.filter(paciente_id=paciente.id).order_by('date')
+    consultas = Agenda.objects.filter(paciente_id=paciente.idPaciente).order_by('date')
 
-    dados_consultas = []
-    for consulta in consultas:
-        dados_consultas.append({
-            'id_agenda': consulta.id,
-            'date': consulta.date,
-            'name': paciente.nome,
-        })
-
-    return render(request, 'agenda_paciente.html', {'consultas': dados_consultas})
+    return render(request, 'agenda_paciente.html', {'consultas': consultas})
 
 
 def completar_cadastro(request):
