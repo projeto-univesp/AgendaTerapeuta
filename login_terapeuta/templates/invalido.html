@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
     <title>Erro de Login</title>
     <style>
         /* Estilo para o destaque */
@@ -46,80 +47,86 @@
         .btn:hover {
             background-color: #0056b3;
         }
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="message">
+        <h2 class="message">
             Email ou senha inválidos.
-        </div>
+        </h2>
         <a href="{% url 'login' %}" class="btn">Voltar ao Login</a>
     </div>
-     <!-- Botão que se move pela tela -->
-     <button id="movingButton" name="Botao Acessibilidade" style="
-     position: fixed;
-     bottom: 550px;
-     right: 40px;
-     background-color: transparent;
-     color: rgb(248, 246, 246);
-     border: none;
-     border-radius: 50%;
-     width: 80px;
-     height: 80px;
-     font-size: 20px;
-     cursor: pointer;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     outline: none; /* Remove a borda ao clicar */
- ">
-     <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
- </button>
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label')).filter(el => {
-    const styles = window.getComputedStyle(el);
-    return el.innerText.trim() && styles.visibility !== 'hidden' && styles.display !== 'none';
-});
+     <!-- Botão de acessibilidade -->
+     <button id="movingButton" name="Botao Acessibilidade">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
 
-let currentIndex = 0;
+    <script>
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
 
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
+        let currentIndex = 0;
 
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
-    }
-
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
-        const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
-</script>
+
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.getAttribute('aria-label') ||
+                             element.name ||
+                             element.placeholder ||
+                             element.alt ||
+                             element.value ||
+                             element.innerText ||
+                             "Elemento sem texto";
+
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
 </body>
 </html>

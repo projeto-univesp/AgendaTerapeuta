@@ -9,26 +9,28 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
-#@login_required(login_url="/auth/login/")
+@login_required
 def agenda(request):
-    # Filtrar consultas pelo paciente associado ao terapeuta atualmente logado
-    paciente = CadastroPaciente.objects.filter(email=request.user.email).first()
-    consultas = Agenda.objects.filter(_idPaciente=paciente).order_by('date')
+    try:
+        paciente = CadastroPaciente.objects.get(usuario=request.user)
+    except CadastroPaciente.DoesNotExist:
+        return redirect('completar_cadastro')
+
+    consultas = Agenda.objects.filter(paciente_id=paciente.id).order_by('date')
 
     dados_consultas = []
     for consulta in consultas:
-        paciente = consulta._idPaciente
         dados_consultas.append({
-            'id_agenda': consulta._id,
+            'id_agenda': consulta.id,
             'date': consulta.date,
             'name': paciente.nome,
         })
 
-    if not consultas:
-        consultas = []
+    return render(request, 'agenda_paciente.html', {'consultas': dados_consultas})
 
-    return render(request, 'agenda_paciente.html', {'consultas': dados_consultas })
 
+def completar_cadastro(request):
+    return render(request, 'completar-cadastro.html')
 
 #@login_required(login_url="/auth/login/")
 def criar_consulta_paciente(request):
@@ -44,7 +46,7 @@ def criar_consulta_paciente(request):
         except Http404:
             return redirect('agenda_paciente')
         
-        nova_consulta = Agenda(date=data_consulta, _idPaciente=paciente, terapeuta=perfil.terapeuta)
+        nova_consulta = Agenda(date=data_consulta, paciente=paciente, terapeuta=perfil.terapeuta)
         nova_consulta.save()
 
         return redirect('agenda_paciente')

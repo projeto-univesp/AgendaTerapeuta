@@ -1,129 +1,207 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
-    <title>Listar Pacientes</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="listar.css">
-    <style>
-        /* Estilo para o destaque */
-        .highlight {
-            outline: 2px solid rgb(37, 161, 137);
-            outline-offset: 2px;
-        }
-    </style>
-    </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
+  <title>Listar Pacientes</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'listar.css' %}">
+
+  <style>
+    /* === Estilos Globais === */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2 !important;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .container {
+      background-color: white;
+      padding: 50px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 1100px;
+      margin: 100px auto;
+    }
+
+    h1 {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 0;
+      margin: -50px -50px 20px -50px;
+      border-radius: 5px 5px 0 0;
+      font-size: 24px;
+    }
+
+    /* === Botões de navegação === */
+    .logout-btn, .back-btn {
+      position: fixed;
+      top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .logout-btn:hover, .back-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout-btn { right: 20px; }
+    .back-btn { left: 20px; }
+
+    /* === Cards de Paciente === */
+    .paciente-card {
+      display: inline-block;
+      border: 1px solid #ece7e7;
+      margin: 10px;
+      padding: 20px;
+      width: calc(33.33% - 20px);
+      min-width: 300px;
+      background-color: white;
+    }
+
+    .search-input {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    /* === Botões === */
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* === Acessibilidade === */
+    .highlight {
+      outline: 2px solid rgb(37, 161, 137);
+      outline-offset: 2px;
+    }
+
+    #movingButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      z-index: 10;
+    }
+
+    #movingButton img {
+      width: 70px;
+      height: 70px;
+    }
+  </style>
+</head>
 <body>
-    <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
-    <div class="container">
-        <h1>Lista de Pacientes</h1>
-        <!-- Adicione a classe "search-input" ao div envolvendo o input de pesquisa -->
-        <div class="search-input">
-            <input type="text" class="form-control" placeholder="Pesquisar" oninput="filterCards(this.value)">
-        </div>
-        <div class="row">
-            {% for paciente in pacientes %}
-                <div class="col-md-4">
-                    <div class="paciente-card">
-                        <strong>{{ paciente.nome }}</strong>
-                        <br><span>Contato:</span>
-                        {% if paciente.celular %}
-                            <span>{{ paciente.celular }}</span>
-                        {% endif %}
-                        <br><span>Data de nascimento:</span>
-                        {% if paciente.data_nascimento %}
-                            <span>{{ paciente.data_nascimento }}</span>
-                        {% endif %}
-                        <br><span>Convênio:</span>
-                        {% if paciente.convenio %}
-                            <span>{{ paciente.convenio }}</span>
-                        {% endif %}
-                        <br>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+
+  <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
+
+  <div class="container">
+    <h1>Lista de Pacientes</h1>
+
+    <div class="search-input">
+      <input type="text" class="form-control" placeholder="Pesquisar" oninput="filterCards(this.value)">
     </div>
-    <script>
-        function filterCards(value) {
-            var cards = document.getElementsByClassName("paciente-card");
-            for (var i = 0; i < cards.length; i++) {
-                var card = cards[i];
-                var nome = card.getElementsByTagName("strong")[0].innerText.toLowerCase();
-                if (nome.includes(value.toLowerCase())) {
-                    card.style.display = "inline-block";
-                } else {
-                    card.style.display = "none";
-                }
-            }
-        }
-    </script>
-   <!-- Botão que se move pela tela -->
-   <button id="movingButton" name="Botao Acessibilidade" style="
-   position: fixed;
-   bottom: 550px;
-   right: 40px;
-   background-color: transparent;
-   color: rgb(248, 246, 246);
-   border: none;
-   border-radius: 50%;
-   width: 80px;
-   height: 80px;
-   font-size: 20px;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   outline: none; /* Remove a borda ao clicar */
-">
-   <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
-</button>
 
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+    <div class="row">
+      {% for paciente in pacientes %}
+        <div class="col-md-4">
+          <div class="paciente-card">
+            <strong>{{ paciente.nome }}</strong><br>
+            {% if paciente.celular %}
+              <span>Contato: {{ paciente.celular }}</span><br>
+            {% endif %}
+            {% if paciente.data_nascimento %}
+              <span>Data de nascimento: {{ paciente.data_nascimento }}</span><br>
+            {% endif %}
+            {% if paciente.convenio %}
+              <span>Convênio: {{ paciente.convenio }}</span><br>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
-let currentIndex = 0;
+  <!-- Botão de Acessibilidade -->
+  <button id="movingButton" name="Botão Acessibilidade">
+    <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+  </button>
 
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
-
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
+  <!-- JavaScript de Filtro e Acessibilidade -->
+  <script>
+    function filterCards(value) {
+      const cards = document.getElementsByClassName("paciente-card");
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        const nome = card.querySelector("strong").innerText.toLowerCase();
+        card.style.display = nome.includes(value.toLowerCase()) ? "inline-block" : "none";
+      }
     }
 
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
+    const movingButton = document.getElementById('movingButton');
+    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+    let currentIndex = 0;
+
+    function highlightElement(element) {
+      element.classList.add('highlight');
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function removeHighlight(element) {
+      element.classList.remove('highlight');
+    }
+
+    function speakText(text, element) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.onstart = () => highlightElement(element);
+      utterance.onend = () => removeHighlight(element);
+      speechSynthesis.speak(utterance);
+    }
+
+    movingButton.addEventListener('click', () => {
+      if (currentIndex > 0) removeHighlight(elements[currentIndex - 1]);
+      if (currentIndex < elements.length) {
         const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
-        }
+        const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+        if (text.trim()) speakText(text, element);
         currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
-</script>
-    
+      } else {
+        currentIndex = 0;
+      }
+    });
+  </script>
 </body>
 </html>

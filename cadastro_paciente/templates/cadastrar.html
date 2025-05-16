@@ -1,174 +1,280 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
-    <title>Cadastro Pacientes</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="cadastrar.css">
-    <style>
-        /* Estilo para o destaque */
-        .highlight {
-            outline: 2px solid rgb(37, 161, 137);
-            outline-offset: 2px;
-        }
-    </style>
-    
-</head>
-<body>
-    <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
-    <div class="container">
-        <h1>Cadastrar</h1>
-        <form action="{% url 'salvar_paciente' %}" method="POST">
-            {% csrf_token %}
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">Nome</h5>
-                    <input type="text" name="nome" class="form-control" required />
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">Data de Nascimento</h5>
-                    <input type="date" name="data_nascimento" class="form-control" required />
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">Sexo</h5>
-                    <select name="sexo" class="form-control" required>
-                        <option value="">Selecione</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Feminino">Feminino</option>
-                        <option value="Outro">Outro</option>
-                        <option value="Prefiro não dizer">Prefiro não dizer</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">Email</h5>
-                    <input type="email" name="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">CPF</h5>
-                    <input type="text" name="cpf" class="form-control" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00" required />
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">RG</h5>
-                    <input type="text" name="rg" class="form-control" pattern="\d+(\.\d+)*" title="Formato: números separados por pontos" required />
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">Celular</h5>
-                    <input type="text" name="celular" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">Endereço</h5>
-                    <input type="text" name="endereco" class="form-control" required />
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">Nacionalidade</h5>
-                    <input type="text" name="nacionalidade" class="form-control" required />
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">Estado Civil</h5>
-                    <select name="estado_civil" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="solteiro">Solteiro(a)</option>
-                        <option value="casado">Casado(a)</option>
-                        <option value="viuvo">Viúvo(a)</option>
-                        <option value="divorciado">Divorciado(a)</option>
-                        <option value="uniao_estavel">União estável</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;">
-                <div class="col-md-6">
-                    <h5 class="small-header">Profissão</h5>
-                    <input type="text" name="profissao" class="form-control" required />
-                </div>
-                <div class="col-md-6">
-                    <h5 class="small-header">Convênio</h5>
-                    <input type="text" name="convenio" class="form-control" />
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="btn">Salvar</button>
-            </div>
-        </form>
-    </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
+  <title>Cadastro Pacientes</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="cadastrar.css" />
 
- <!-- Botão que se move pela tela -->
- <button id="movingButton" name="Botao Acessibilidade" style="
- position: fixed;
- bottom: 550px;
- right: 40px;
- background-color: transparent;
- color: rgb(248, 246, 246);
- border: none;
- border-radius: 50%;
- width: 80px;
- height: 80px;
- font-size: 20px;
- cursor: pointer;
- display: flex;
- align-items: center;
- justify-content: center;
- outline: none; /* Remove a borda ao clicar */
-">
- <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
-</button>
-
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
-
-let currentIndex = 0;
-
-
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
-
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
-        
+  <style>
+    .highlight {
+      outline: 2px solid rgb(37, 161, 137);
+      outline-offset: 2px;
     }
-    
 
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(10, 10, 10, 0.1);
+      max-width: 700px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 0;
+      margin: -40px -40px 20px -40px;
+      border-radius: 5px 5px 0 0;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout-btn, .back-btn {
+      position: absolute;
+      top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+    }
+
+    .logout-btn:hover, .back-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout-btn {
+      right: 20px;
+    }
+
+    .back-btn {
+      left: 20px;
+    }
+
+    /* Estilo para destaque de acessibilidade */
+    .highlight {
+        outline: 2px solid rgb(37, 161, 137);
+        outline-offset: 2px;
+    }
+
+    /* Estilo do botão de acessibilidade */
+    #movingButton {
+        position: fixed;
+        top: 20px;   /* Define a distância do topo */
+        right: 20px; /* Define a distância da borda direita */
+        background-color: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
+  </style>
+</head>
+
+<body>
+  <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
+
+  <div class="container">
+    <h1>Cadastrar</h1>
+    <form action="{% url 'salvar_paciente' %}" method="POST">
+      {% csrf_token %}
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="nome">Nome</label>
+          <input id="nome" name="nome" type="text" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+          <label for="data_nascimento">Data de Nascimento</label>
+          <input id="data_nascimento" name="data_nascimento" type="date" class="form-control" required />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="sexo">Sexo</label>
+          <select id="sexo" name="sexo" class="form-control" required>
+            <option value="">Selecione</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+            <option value="Prefiro não dizer">Prefiro não dizer</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" class="form-control"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="cpf">CPF</label>
+          <input id="cpf" name="cpf" type="text" class="form-control"
+            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 123.456.789-00" required />
+        </div>
+        <div class="col-md-6">
+          <label for="rg">RG</label>
+          <input id="rg" name="rg" type="text" class="form-control" pattern="\d+(\.\d+)*"
+            title="Formato: números separados por pontos" required />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="celular">Celular</label>
+          <input id="celular" name="celular" type="text" class="form-control" />
+        </div>
+        <div class="col-md-6">
+          <label for="endereco">Endereço</label>
+          <input id="endereco" name="endereco" type="text" class="form-control" required />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="nacionalidade">Nacionalidade</label>
+          <input id="nacionalidade" name="nacionalidade" type="text" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+          <label for="estado_civil">Estado Civil</label>
+          <select id="estado_civil" name="estado_civil" class="form-control">
+            <option value="">Selecione</option>
+            <option value="solteiro">Solteiro(a)</option>
+            <option value="casado">Casado(a)</option>
+            <option value="viuvo">Viúvo(a)</option>
+            <option value="divorciado">Divorciado(a)</option>
+            <option value="uniao_estavel">União estável</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="profissao">Profissão</label>
+          <input id="profissao" name="profissao" type="text" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+          <label for="convenio">Convênio</label>
+          <input id="convenio" name="convenio" type="text" class="form-control" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Salvar</button>
+    </form>
+  </div>
+
+  <!-- Botão de acessibilidade -->
+  <button id="movingButton" aria-label="Botão de acessibilidade" style="
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background-color: transparent;
+      border: none;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      cursor: pointer;
+    ">
+    <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+  </button>
+
+  <script>
+    const movingButton = document.getElementById('movingButton');
+    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+    let currentIndex = 0;
+
+    function highlightElement(element) {
+      element.classList.add('highlight');
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function removeHighlight(element) {
+      element.classList.remove('highlight');
+    }
+
+    function speakText(text, element) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.onstart = () => highlightElement(element);
+      utterance.onend = () => removeHighlight(element);
+      speechSynthesis.speak(utterance);
+    }
+
+    movingButton.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        removeHighlight(elements[currentIndex - 1]);
+      }
+
+      if (currentIndex < elements.length) {
         const element = elements[currentIndex];
-        const text = element.placeholder || element.innerText || element.value || element.name ||"Elemento sem texto";
+        const text = element.getAttribute('aria-label') ||
+                     element.placeholder ||
+                     element.innerText ||
+                     element.value ||
+                     element.name ||
+                     "Elemento sem texto";
         if (text.trim()) {
-            speakText(text, element);
+          speakText(text, element);
         }
         currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
-</script>
-
+      } else {
+        currentIndex = 0;
+      }
+    });
+  </script>
 </body>
 </html>

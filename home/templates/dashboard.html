@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
   <title>Dashboard - Graficos e Faturamento</title>
   <style>
     :root {
@@ -351,12 +353,56 @@
       }
     }
     
+    .back-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      }
+
+    .back-btn:hover {
+        background-color: #0056b3;
+    }
+
     @media (max-width: 480px) {
       .card-container {
         grid-template-columns: 1fr;
       }
     }
+
+    #movingButton {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+    }
+
+    #movingButton img {
+        width: 70px;
+        height: 70px;
+    }
   </style>
+  <a class="back-btn" href="/home">Voltar</a>
+  <button id="movingButton" name="Botao Acessibilidade">
+    <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+  </button>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -860,6 +906,50 @@
       
       init();
     });
+    // Seleciona todos os elementos focáveis e visíveis na página
+    const movingButton = document.getElementById('movingButton');
+    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label')).filter(el => {
+        const styles = window.getComputedStyle(el);
+        return el.innerText.trim() && styles.visibility !== 'hidden' && styles.display !== 'none';
+    });
+
+    let currentIndex = 0;
+
+  function highlightElement(element) {
+      element.classList.add('highlight');
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
+  }
+
+  function removeHighlight(element) {
+      element.classList.remove('highlight');
+  }
+
+  function speakText(text, element) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.onstart = () => highlightElement(element);
+      utterance.onend = () => removeHighlight(element);
+      speechSynthesis.speak(utterance);
+  }
+
+  movingButton.addEventListener('click', () => {
+      // Remove o destaque do elemento atual
+      if (currentIndex > 0) {
+          removeHighlight(elements[currentIndex - 1]);
+      }
+
+      // Avança para o próximo elemento
+      if (currentIndex < elements.length) {
+          const element = elements[currentIndex];
+          const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+          if (text.trim()) {
+              speakText(text, element);
+          }
+          currentIndex++;
+      } else {
+          currentIndex = 0; // Reinicia a navegação ao final
+      }
+  });
   </script>
 </body>
 </html>

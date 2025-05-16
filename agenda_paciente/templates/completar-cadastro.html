@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
+    <title>Complete seu Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .button-group button,
+        .button-group a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button-group button:hover,
+        .button-group a:hover {
+            background-color: #0056b3;
+        }
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Atenção!</h1>
+        <p>Você precisa completar seu cadastro para acessar essa área.</p>
+        <div class="button-group">
+            <button onclick="window.location.href='/pacientehome/cadastrar/'">Completar Cadastro</button>
+        </div>
+    </div>
+     <!-- Botão de acessibilidade -->
+     <button id="movingButton" name="Botao Acessibilidade">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
+
+    <script>
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+
+        let currentIndex = 0;
+
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.getAttribute('aria-label') ||
+                             element.name ||
+                             element.placeholder ||
+                             element.alt ||
+                             element.value ||
+                             element.innerText ||
+                             "Elemento sem texto";
+
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
     <title>Usuário já existe</title>
     <style>
         /* Estilo para o destaque */
@@ -48,9 +49,9 @@
 </head>
 <body>
     <div class="container">
-        <div class="message">
+        <h2 class="message">
             Esse usuário já existe.
-        </div>
+        </h2>
         <a href="/auth/loginpaciente/" class="btn">Ir para Login</a>
     </div>
     <!-- Botão que se move pela tela -->
@@ -70,54 +71,55 @@
         align-items: center;
         justify-content: center;
     ">
-        <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
     </button>
 
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label')).filter(el => {
-    const styles = window.getComputedStyle(el);
-    return el.innerText.trim() && styles.visibility !== 'hidden' && styles.display !== 'none';
-});
-
-let currentIndex = 0;
-
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
-
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
-    }
-
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
-        const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
+    <script>
+        const movingButton = document.getElementById('movingButton');
+    
+        const allElements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+        const elements = allElements.filter(el => {
+            const styles = window.getComputedStyle(el);
+            const isVisible = styles.visibility !== 'hidden' && styles.display !== 'none';
+            const isInsideAccessibilityButton = el.closest('#movingButton') !== null;
+            return isVisible && !isInsideAccessibilityButton;
+        });
+    
+        let currentIndex = 0;
+    
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
+    
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+    
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+    
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+    
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
 </script>
 </body>
-</html>
+</html>    
