@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
     <title>Cadastro Pacientes</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -84,6 +85,26 @@
         }
         .back-btn {
             left: 20px;
+        }
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+        #movingButton img {
+            width: 70px;
+            height: 70px;
         }
     </style>
 </head>
@@ -191,51 +212,56 @@
   justify-content: center;
   outline: none; /* Remove a borda ao clicar */
 ">
-  <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+  <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
 </button>
 
 <script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+    const movingButton = document.getElementById('movingButton');
 
-let currentIndex = 0;
+    const allElements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+    const elements = allElements.filter(el => {
+        const styles = window.getComputedStyle(el);
+        const isVisible = styles.visibility !== 'hidden' && styles.display !== 'none';
+        const isInsideAccessibilityButton = el.closest('#movingButton') !== null;
+        return isVisible && !isInsideAccessibilityButton;
+    });
 
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
+    let currentIndex = 0;
 
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
+    function highlightElement(element) {
+        element.classList.add('highlight');
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
-        const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
+    function removeHighlight(element) {
+        element.classList.remove('highlight');
+    }
+
+    function speakText(text, element) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-BR';
+        utterance.onstart = () => highlightElement(element);
+        utterance.onend = () => removeHighlight(element);
+        speechSynthesis.speak(utterance);
+    }
+
+    movingButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            removeHighlight(elements[currentIndex - 1]);
         }
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
+
+        if (currentIndex < elements.length) {
+            const element = elements[currentIndex];
+            const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+            if (text.trim()) {
+                speakText(text, element);
+            }
+            currentIndex++;
+        } else {
+            currentIndex = 0;
+        }
+    });
+
 </script>
 </body>
 </html>

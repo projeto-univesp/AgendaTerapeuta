@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from cadastro_paciente.models import CadastroPaciente
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="/auth/login/paciente")
 def paciente(request):
@@ -24,6 +28,8 @@ def salvar(request):
         paciente.profissao = request.POST.get("profissao")
         paciente.convenio = request.POST.get("convenio")
         paciente.save()
+
+        paciente.usuario = request.user
         # CadastroPaciente.objects.create(
         #     nome=nome, data_nascimento=data_nascimento, sexo=sexo, email=email, cpf=cpf, rg=rg,
         #     celular=celular, endereco=endereco, nacionalidade=nacionalidade, estado_civil=estado_civil,
@@ -88,3 +94,11 @@ def pagina_cadastrar(request):
     
     # Caso contrário, renderize a página de cadastro normalmente
     return render(request, "cadastro_paciente_paciente/cadastrar.html", {"paciente": paciente})
+
+@login_required()
+def logout_confirmar(request):
+    return render(request, 'cadastro_paciente_paciente/logoutpaciente.html')
+
+def tela_logout(request):
+    logout(request)
+    return redirect(reverse('login'))  # redireciona para tela de login

@@ -13,6 +13,7 @@ class CadastroPaciente(models.Model):
     ]
 
     idPaciente = models.AutoField(primary_key=True, null=False, blank=False)
+    usuario = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name='perfil_paciente')
     nome = models.CharField(max_length=100, null=False, blank=False)
     data_nascimento = models.DateField(null=True, blank=True)
     sexo = models.CharField(max_length=30, null=True)

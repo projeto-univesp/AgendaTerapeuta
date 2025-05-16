@@ -1,6 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="{% static 'favicon.ico' %}">
     <title>Home</title>
     <style>
         body {
@@ -47,7 +49,7 @@
         }
         .logout-btn {
             position: absolute;
-            top: 20px;
+            top: 40px;
             right: 20px;
             background-color: #007bff;
             color: white;
@@ -61,6 +63,34 @@
         .logout-btn:hover {
             background-color: #0056b3;
         }
+        /* Estilo para destaque de acessibilidade */
+        .highlight {
+            outline: 2px solid rgb(37, 161, 137);
+            outline-offset: 2px;
+        }
+
+        /* Estilo do botão de acessibilidade */
+        #movingButton {
+        position: fixed;
+        top: 20px;   /* Define a distância do topo */
+        right: 100px; /* Define a distância da borda direita */
+        background-color: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     </style>
 </head>
 <body>
@@ -71,5 +101,48 @@
         <button onclick="window.location.href='/dashboard/'">Graficos e Relatórios</button>
     </div>
     <a class="logout-btn" href="{% url 'logout' %}">Sair</a>
+    <button id="movingButton" name="Botao Acessibilidade">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
+    <script>
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+
+        let currentIndex = 0;
+
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
 </body>
 </html>

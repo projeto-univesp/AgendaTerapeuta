@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
     <title>Login</title>
     <style>
         /* Estilo para o destaque */
@@ -65,6 +66,26 @@
         .container a:hover {
             text-decoration: underline;
         }
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     </style>
 </head>
 <body>
@@ -97,7 +118,7 @@
      justify-content: center;
      outline: none; /* Remove a borda ao clicar */
  ">
-     <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+     <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
  </button>
 <script>
 // Seleciona todos os elementos focáveis e visíveis na página

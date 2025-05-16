@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Pagin Inicial</title>
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
     <style>
         /* Estilo para o destaque */
         .highlight {
@@ -69,6 +70,35 @@
         .logout-btn:hover {
             background-color: #0056b3; /* Cor mais clara para o efeito hover */
         }
+
+        /* Estilo para destaque de acessibilidade */
+        .highlight {
+            outline: 2px solid rgb(37, 161, 137);
+            outline-offset: 2px;
+        }
+
+        /* Estilo do botão de acessibilidade */
+        #movingButton {
+        position: fixed;
+        top: 20px;   /* Define a distância do topo */
+        right: 100px; /* Define a distância da borda direita */
+        background-color: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +125,7 @@
       justify-content: center;
       outline: none; /* Remove a borda ao clicar */
   ">
-      <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+      <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
   </button>
 
   <script>

@@ -1,22 +1,138 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
     <title>Resultado da Busca</title>
-    <link rel="stylesheet" href="resultado.css">
-    
     <style>
-        /* Estilo para o destaque */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            position: relative;
+        }
+
+        .container h1, .container h2 {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            margin: -40px -40px 20px -40px;
+            border-radius: 5px 5px 0 0;
+            font-size: 24px;
+        }
+
+        .list-group {
+            padding-left: 0;
+            list-style: none;
+            margin: 0;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .list-group-item strong {
+            font-size: 18px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-info {
+            background-color: #007bff;
+        }
+
+        .btn-info:hover {
+            background-color: #0056b3;
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
         .highlight {
             outline: 2px solid rgb(37, 161, 137);
             outline-offset: 2px;
+        }
+
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
         }
     </style>
 </head>
 <body>
     <a class="back-btn" href="{% url 'buscar' %}">Voltar</a>
+
     <div class="container">
         <h2>Visualizar Paciente</h2>
         {% if pacientes %}
@@ -32,72 +148,54 @@
             <p class="text-center mt-4">Nenhum paciente encontrado com esse nome.</p>
         {% endif %}
     </div>
-   <!-- Botão que se move pela tela -->
-   <button id="movingButton" name="Botao Acessibilidade" style="
-   position: fixed;
-   bottom: 550px;
-   right: 40px;
-   background-color: transparent;
-   color: rgb(248, 246, 246);
-   border: none;
-   border-radius: 50%;
-   width: 80px;
-   height: 80px;
-   font-size: 20px;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   outline: none; /* Remove a borda ao clicar */
-">
-   <img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
-</button>
 
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label')).filter(el => {
-    const styles = window.getComputedStyle(el);
-    return el.innerText.trim() && styles.visibility !== 'hidden' && styles.display !== 'none';
-});
+    <button id="movingButton" name="Botao Acessibilidade">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
 
-let currentIndex = 0;
+    <script>
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+            .filter(el => {
+                const styles = window.getComputedStyle(el);
+                return el.innerText.trim() && styles.visibility !== 'hidden' && styles.display !== 'none';
+            });
 
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
+        let currentIndex = 0;
 
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
-    }
-
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
-        const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
-</script>
+
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
 </body>
 </html>

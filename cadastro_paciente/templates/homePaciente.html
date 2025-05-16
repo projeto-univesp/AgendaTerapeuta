@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon/Icons-Land-Medical-People-Doctor-Male.ico" type="image/x-icon" />
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
     <title>Cadastro de Pacientes</title>
    
     <link rel="stylesheet" href="estilo3.css">
@@ -89,6 +90,35 @@
         .back-btn:hover {
             background-color: #0056b3;
         }
+
+        * Estilo para destaque de acessibilidade */
+        .highlight {
+            outline: 2px solid rgb(37, 161, 137);
+            outline-offset: 2px;
+        }
+
+        /* Estilo do botão de acessibilidade */
+        #movingButton {
+            position: fixed;
+            top: 20px;   /* Define a distância do topo */
+            right: 20px; /* Define a distância da borda direita */
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     
     </style>
 </head>
@@ -102,24 +132,24 @@
     </div>
 
      <!-- Botão que se move pela tela -->
-<button id="movingButton" name="Botao Acessibilidade" style="
-position: fixed;
-bottom: 550px;
-right: 40px;
-background-color: transparent;
-color: rgb(248, 246, 246);
-border: none;
-border-radius: 50%;
-width: 80px;
-height: 80px;
-font-size: 20px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-outline: none; /* Remove a borda ao clicar */
-">
-<img src="favicon/imgAcessi.png" alt="Acessibilidade" style="width: 70px; height: 70px;">
+    <button id="movingButton" name="Botao Acessibilidade" style="
+    position: fixed;
+    bottom: 550px;
+    right: 40px;
+    background-color: transparent;
+    color: rgb(248, 246, 246);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none; /* Remove a borda ao clicar */
+    ">
+    <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
 </button>
 
 <script>
