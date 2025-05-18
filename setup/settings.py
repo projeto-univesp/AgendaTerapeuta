@@ -29,8 +29,11 @@ SECRET_KEY="django-insecure-945qo!=ur#h^=ap4(!l*==ffly$a+*pfhv3s_ilmt9$x=pg&)x"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
-
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="127.0.0.1,localhost",
+    cast=Csv(),
+)
 
 # Application definition
 
