@@ -248,3 +248,93 @@ Time: 15:58
 Phone Number: +5511981106589
 Message: Olá Rafael , este é um lembrete da sua consulta agendada para 16/04/2025 às 20:31. Por favor, confirme sua presença.
 --------------------
+Date: 18/5/2025
+Time: 12:49
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:00.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 13:27
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 16:26.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 13:28
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:00.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 13:59
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 16:26.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:0
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 16:57.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:0
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:00.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:3
+Phone Number: +5511986547008
+Message: Olá Débora,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:01.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:19
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:18.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:21
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:18.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:53
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:00.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 14:57
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:55.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:28
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 17:55.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:29
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 18:30.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:32
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 18:30.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:35
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 18:30.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:40
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 18:38.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:44
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 18:38.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------
+Date: 18/5/2025
+Time: 15:44
+Phone Number: +5511970352422
+Message: Olá Larissa,Este é um lembrete da sua consulta agendada para 19/05/2025 às 19:00.Para CONFIRMAR sua presença, responda esta mensagem com 'CONFIRMAR'.Se precisar cancelar ou reagendar, responda com 'CANCELAR'.Atenciosamente,
+--------------------

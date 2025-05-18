@@ -32,7 +32,7 @@ def cadastro(request): #request é uma solicitacao feita por quem está querendo
             return render(request, 'login_pacientes/codigo_invalido.html', {'erro': 'Código de acesso inválido. Terapeuta não encontrado.'})
 
         if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
-            return render(request, 'usuario_existente.html', {'erro': 'Este email já está cadastrado.'})
+            return render(request, 'login_pacientes/usuario_existente_p.html', {'erro': 'Este email já está cadastrado!'})
         
         user = User.objects.create_user(email=email, password=senha, username=email)
         # User é um modelo padrão do Django para representar usuários no sistema. Ele faz parte do módulo django.contrib.auth.models e contém campos como username, email, password, entre outros.
@@ -56,7 +56,7 @@ def login(request):
             user = User.objects.get(email=email)
             username = user.username  # Obtém o username para autenticação
         except User.DoesNotExist:
-            return render(request, 'invalido.html')  # Retorna se o email não existir
+            return render(request, 'login_pacientes/invalido_paciente.html')  # Retorna se o email não existir
 
         # Autentica com o username e a senha
         user = authenticate(username=username, password=senha)
@@ -65,7 +65,7 @@ def login(request):
             login_(request, user)
             return redirect('home_paciente')
         else:
-            return render(request, 'invalido.html')
+            return render(request, 'login_pacientes/invalido_paciente.html')
 
 #@login_required(login_url="/auth/login/pacientes/")
 def plataforma(request):

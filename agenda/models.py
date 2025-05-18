@@ -13,12 +13,12 @@ class Agenda(models.Model):
         ('Aguardando envio', 'Aguardando envio'),
         ('Enviado', 'Enviado'),
         ('Aguardando confirmação', 'Aguardando confirmação'),
-        ('Falha', 'Falha no envio')
+        ('Falha', 'Falha no envio'),
+        ('Confirmada pelo paciente', 'Confirmada pelo paciente')
     ]
     
     date = models.DateTimeField("Data e Hora da Consulta")
     paciente = models.ForeignKey(CadastroPaciente, on_delete=models.CASCADE)
-    horario_lembrete = models.DateTimeField("Horário do Lembrete", null=True, blank=True)
     terapeuta = models.ForeignKey(User, on_delete=models.CASCADE)
     confirmada = models.BooleanField(default=False)
     status_lembrete = models.CharField(
@@ -26,7 +26,7 @@ class Agenda(models.Model):
         choices=STATUS_CHOICES,
         default='Não enviado'
     )
-
+    horario_lembrete = models.TimeField("Horário do Lembrete", default='16:00')
     valor_consulta = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -35,6 +35,8 @@ class Agenda(models.Model):
     
     class Meta:
         ordering = ['date']
+        verbose_name = 'Consulta'
+        verbose_name_plural = 'Consultas'
     
     def __str__(self):
         return f"{self.paciente.nome} - {self.date.strftime('%d/%m/%Y %H:%M')}"

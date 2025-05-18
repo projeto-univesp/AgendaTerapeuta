@@ -45,6 +45,26 @@
         .btn:hover {
             background-color: #0056b3;
         }
+        #movingButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+        #movingButton img {
+            width: 70px;
+            height: 70px;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +72,7 @@
         <h2 class="message">
             Esse usuário já existe.
         </h2>
-        <a href="/auth/loginpaciente/" class="btn">Ir para Login</a>
+        <a href="/auth/login/paciente/" class="btn">Ir para Login</a>
     </div>
     <!-- Botão que se move pela tela -->
     <button id="movingButton" name="Botao Acessibilidade" style="

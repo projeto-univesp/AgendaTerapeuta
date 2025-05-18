@@ -6,13 +6,11 @@
     <title>Sair</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilo para o destaque */
         .highlight {
             outline: 2px solid rgb(37, 161, 137);
             outline-offset: 2px;
         }
-    </style>
-    <style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -22,6 +20,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .container {
             background-color: white;
             padding: 20px;
@@ -30,6 +29,7 @@
             text-align: center;
             width: 300px;
         }
+
         .container h1 {
             background-color: #007bff;
             color: white;
@@ -37,27 +37,30 @@
             margin: -20px -20px 20px -20px;
             border-radius: 5px 5px 0 0;
         }
-        .container button {
+
+        .btn-custom {
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            text-decoration: none;
             font-size: 16px;
             cursor: pointer;
-            margin-bottom: 10px;
+            width: 120px;
+            text-align: center;
         }
-        .container button:hover {
+
+        .btn-custom:hover {
             background-color: #0056b3;
         }
-        .container a {
-            text-decoration: none;
-            color: #007bff;
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
         }
-        .container a:hover {
-            text-decoration: underline;
-        }
+
         #movingButton {
             position: fixed;
             top: 20px;
@@ -74,6 +77,7 @@
             justify-content: center;
             outline: none;
         }
+
         #movingButton img {
             width: 70px;
             height: 70px;
@@ -84,81 +88,67 @@
     <div class="container">
         <h1>Sair</h1>
         <p>Tem certeza que deseja sair?</p>
-        <form action="{% url 'logout_paciente' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Sair</button>
-        </form>
-        <a href="{% url 'home_paciente' %}">Voltar</a>
+
+        <div class="btn-container">
+            <a href="{% url 'home_paciente' %}" class="btn-custom">Voltar</a>
+
+            <form action="{% url 'pagina_inicial' %}" method="post" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="btn-custom">Sair</button>
+            </form>
+        </div>
     </div>
-     <!-- Botão que se move pela tela -->
-    
-  <!-- Botão que se move pela tela -->
-<button id="movingButton" name="Botao Acessibilidade" style="
-position: fixed;
-bottom: 550px;
-right: 40px;
-background-color: transparent;
-color: rgb(248, 246, 246);
-border: none;
-border-radius: 50%;
-width: 80px;
-height: 80px;
-font-size: 20px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-outline: none; /* Remove a borda ao clicar */
-">
- <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
-</button>
 
-<script>
-    const movingButton = document.getElementById('movingButton');
-    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+    <!-- Botão Acessibilidade -->
+    <button id="movingButton" name="Botao Acessibilidade" style="bottom: 550px; right: 40px;">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
 
-    let currentIndex = 0;
+    <script>
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'));
+        let currentIndex = 0;
 
-    function highlightElement(element) {
-        element.classList.add('highlight');
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function removeHighlight(element) {
-        element.classList.remove('highlight');
-    }
-
-    function speakText(text, element) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'pt-BR';
-        utterance.onstart = () => highlightElement(element);
-        utterance.onend = () => removeHighlight(element);
-        speechSynthesis.speak(utterance);
-    }
-
-    movingButton.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            removeHighlight(elements[currentIndex - 1]);
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        if (currentIndex < elements.length) {
-            const element = elements[currentIndex];
-            const text = element.getAttribute('aria-label') ||
-                         element.name ||
-                         element.placeholder ||
-                         element.alt ||
-                         element.value ||
-                         element.innerText ||
-                         "Elemento sem texto";
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
 
-            if (text.trim()) {
-                speakText(text, element);
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
             }
-            currentIndex++;
-        } else {
-            currentIndex = 0;
-        }
-    });
-</script>
+
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.getAttribute('aria-label') ||
+                            element.name ||
+                            element.placeholder ||
+                            element.alt ||
+                            element.value ||
+                            element.innerText ||
+                            "Elemento sem texto";
+
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
 </body>
 </html>

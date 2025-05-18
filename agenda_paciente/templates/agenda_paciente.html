@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
     <title>Minha Agenda</title>
-    <link rel="stylesheet" href="estilo1.css">
     <style>
         /* Estilo para o destaque */
         .highlight {
@@ -14,233 +13,118 @@
             outline-offset: 2px;
         }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    position: relative;
-    overflow: auto;
-}
-.container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-}
-.container h1 {
-    background-color: #007bff;
-    color: white;
-    padding: 20px 0;
-    margin: -40px -40px 20px -40px;
-    border-radius: 5px 5px 0 0;
-    font-size: 24px;
-}
-.container h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
-.input-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    text-align: left;
-}
-.input-container > label {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-.input-container > input,
-.input-container > select {
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    width: 100%;
-    box-sizing: border-box;
-}
-.container button {
-    background-color: #007bff;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    width: 100%;
-}
-.container button:hover {
-    background-color: #0056b3;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-}
-th {
-    background-color: #007bff;
-    color: white;
-}
-.remove-button {
-    background-color: #ff0000; /* Cor vermelha */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.remove-button:hover {
-    background-color: #b30000; /* Cor vermelha mais escura */
-}
-.back-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-.back-btn:hover {
-    background-color: #0056b3;
-}
-
-
-
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    position: relative;
-    overflow: auto;
-}
-.container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-}
-.container h1 {
-    background-color: #007bff;
-    color: white;
-    padding: 20px 0;
-    margin: -40px -40px 20px -40px;
-    border-radius: 5px 5px 0 0;
-    font-size: 24px;
-}
-.container h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
-.input-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    text-align: left;
-}
-.input-container > label {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-.input-container > input,
-.input-container > select {
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    width: 100%;
-    box-sizing: border-box;
-}
-.container button {
-    background-color: #007bff;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    width: 100%;
-}
-.container button:hover {
-    background-color: #0056b3;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-}
-th {
-    background-color: #007bff;
-    color: white;
-}
-.remove-button {
-    background-color: #ff0000; /* Cor vermelha */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.remove-button:hover {
-    background-color: #b30000; /* Cor vermelha mais escura */
-}
-.back-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-.back-btn:hover {
-    background-color: #0056b3;
-}
-#movingButton {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: auto;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .container h1 {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            margin: -40px -40px 20px -40px;
+            border-radius: 5px 5px 0 0;
+            font-size: 24px;
+        }
+        .container h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-container > label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .input-container > input,
+        .input-container > select {
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container button {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .remove-button {
+            background-color: #ff0000; /* Cor vermelha */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-button:hover {
+            background-color: #b30000; /* Cor vermelha mais escura */
+        }
+        .back-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        #movingButton {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -261,12 +145,54 @@ th {
             width: 70px;
             height: 70px;
         }
+        
+        /* Estilo para mensagens de alerta */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        .messages li {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .messages .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .messages .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .messages .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .messages .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
     </style>
 </head>
 <body>
-    <a class="back-btn" href="/home">Voltar</a>
+    <a class="back-btn" href="/pacientehome/">Voltar</a>
     <div class="container">
         <h1>Agenda</h1>
+        
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
         <section>
             <form action="{% url 'criar_consulta_paciente' %}" method="POST">
                 {% csrf_token %}
@@ -280,6 +206,7 @@ th {
         <hr />
         <section>
             <h2>Consultas Agendadas</h2>
+            {% if consultas %}
             <table>
                 <thead>
                     <tr>
@@ -288,11 +215,11 @@ th {
                     </tr>
                 </thead>
                 <tbody>
-                    {% for consulta in consultas %}
+                    {% for agenda in consultas %}
                     <tr>
-                        <td>{{ consulta.date }}</td>
+                        <td>{{ agenda.date }}</td>
                         <td>
-                            <form action="{% url 'deletar_consulta_paciente' consulta.id %}" method="post">
+                            <form action="{% url 'deletar_consulta_paciente' agenda.id_agenda %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="remove-button">Excluir</button>
                             </form>
@@ -301,77 +228,75 @@ th {
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <p>Não há consultas agendadas.</p>
+            {% endif %}
         </section>
     </div>
-    <script>
-        const terapeuta = document.getElementById("_idTerapeuta");
-        const terapeutaLocalsStorage = localStorage.getItem("trabalho_agenda_terapeutaId") || "";
-        if (terapeutaLocalsStorage) terapeuta.value = terapeutaLocalsStorage;
-    </script>
-     
-       <!-- Botão que se move pela tela -->
+    
+    <!-- Botão que se move pela tela -->
     <button id="movingButton" name="Botao Acessibilidade" style="
-    position: fixed;
-    bottom: 550px;
-    right: 40px;
-    background-color: transparent;
-    color: rgb(248, 246, 246);
-    border: none;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    outline: none; /* Remove a borda ao clicar */
-">
-    <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
-</button>
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: transparent;
+        color: rgb(248, 246, 246);
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+    ">
+        <img src="{% static 'favicon/imgAcessi.png' %}" alt="Acessibilidade">
+    </button>
 
-<script>
-// Seleciona todos os elementos focáveis e visíveis na página
-const movingButton = document.getElementById('movingButton');
-const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
+    <script>
+        // Seleciona todos os elementos focáveis e visíveis na página
+        const movingButton = document.getElementById('movingButton');
+        const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label'))
 
-let currentIndex = 0;
+        let currentIndex = 0;
 
-function highlightElement(element) {
-    element.classList.add('highlight');
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
-}
-
-function removeHighlight(element) {
-    element.classList.remove('highlight');
-}
-
-function speakText(text, element) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.onstart = () => highlightElement(element);
-    utterance.onend = () => removeHighlight(element);
-    speechSynthesis.speak(utterance);
-}
-
-movingButton.addEventListener('click', () => {
-    // Remove o destaque do elemento atual
-    if (currentIndex > 0) {
-        removeHighlight(elements[currentIndex - 1]);
-    }
-
-    // Avança para o próximo elemento
-    if (currentIndex < elements.length) {
-        const element = elements[currentIndex];
-        const text =element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
-        if (text.trim()) {
-            speakText(text, element);
+        function highlightElement(element) {
+            element.classList.add('highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centraliza o elemento na tela
         }
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Reinicia a navegação ao final
-    }
-});
-</script>
+
+        function removeHighlight(element) {
+            element.classList.remove('highlight');
+        }
+
+        function speakText(text, element) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.onstart = () => highlightElement(element);
+            utterance.onend = () => removeHighlight(element);
+            speechSynthesis.speak(utterance);
+        }
+
+        movingButton.addEventListener('click', () => {
+            // Remove o destaque do elemento atual
+            if (currentIndex > 0) {
+                removeHighlight(elements[currentIndex - 1]);
+            }
+
+            // Avança para o próximo elemento
+            if (currentIndex < elements.length) {
+                const element = elements[currentIndex];
+                const text = element.name || element.placeholder || element.innerText || element.value || "Elemento sem texto";
+                if (text.trim()) {
+                    speakText(text, element);
+                }
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Reinicia a navegação ao final
+            }
+        });
+    </script>
 </body>
 </html>
