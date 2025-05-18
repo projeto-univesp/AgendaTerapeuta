@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
     <title>Visualizar Paciente</title>
     <link rel="stylesheet" href="visualizar.css">
     <style>
@@ -121,12 +121,12 @@
         <p><strong>Celular:</strong> {{ paciente.celular }}</p>
         <p><strong>Endereço:</strong> {{ paciente.endereco }}</p>
         <p><strong>Nacionalidade:</strong> {{ paciente.nacionalidade }}</p>
-        <p><strong>Estado Civil:</strong> {{ paciente.estadocivil }}</p>
+        <p><strong>Estado Civil:</strong> {{ paciente.estado_civil }}</p>
         <p><strong>Profissão:</strong> {{ paciente.profissao }}</p>
         <p><strong>Convênio:</strong> {{ paciente.convenio }}</p>
         <div class="btn-container">
-            <a href="{% url 'editar' paciente.idPaciente %}" class="btn">Editar</a>
-            <a href="{% url 'deletar' paciente.idPaciente %}" class="btn">Deletar</a>
+            <a href="{% url 'editar_t' paciente.idPaciente %}" class="btn">Editar</a>
+            <a href="{% url 'deletar_t' paciente.idPaciente %}" class="btn">Deletar</a>
         </div>
     </div>
     <!-- Botão que se move pela tela -->

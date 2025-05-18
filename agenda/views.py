@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -7,6 +7,7 @@ from django.utils import timezone
 from decimal import Decimal
 from django.db.models import Count, Sum, Q, Value
 from django.db.models.functions import TruncMonth, TruncDate, Coalesce
+from django.contrib import messages  # Added import for messages
 from .models import Agenda
 from cadastro_paciente.models import CadastroPaciente
 import logging
@@ -18,89 +19,8 @@ import traceback
 logger = logging.getLogger(__name__)
 
 @login_required(login_url="/auth/login/")
-def homePaciente(request):
-    return render(request, "homePaciente.html")
-
-@login_required(login_url="/auth/login/")
-def listar(request):
-    pacientes = CadastroPaciente.objects.filter(terapeuta=request.user)
-    return render(request, "listar.html", {"pacientes": pacientes})
-
-@login_required(login_url="/auth/login/")
-def buscar(request):
-    return render(request, 'buscar.html')
-
-@login_required(login_url="/auth/login/")
-def buscar_resultados(request):
-    nome = request.GET.get('nome')
-    pacientes = CadastroPaciente.objects.filter(nome__icontains=nome, terapeuta=request.user).exclude(idPaciente=None)
-    return render(request, "resultado_busca.html", {"pacientes": pacientes, "nome": nome})
-
-@login_required
-def visualizar_paciente(request, idPaciente):
-    paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
-    return render(request, "visualizar_paciente.html", {"paciente": paciente})
-
-@login_required
-def salvar(request):
-    if request.method == 'POST':
-        nome = request.POST.get("nome")
-        data_nascimento = request.POST.get("data_nascimento")
-        sexo = request.POST.get("sexo")
-        email = request.POST.get("email")
-        cpf = request.POST.get("cpf")
-        rg = request.POST.get("rg")
-        celular = request.POST.get("celular")
-        endereco = request.POST.get("endereco")
-        nacionalidade = request.POST.get("nacionalidade")
-        estado_civil = request.POST.get("estado_civil")
-        profissao = request.POST.get("profissao")
-        convenio = request.POST.get("convenio")
-        CadastroPaciente.objects.create(
-            nome=nome, data_nascimento=data_nascimento, sexo=sexo, email=email, cpf=cpf, rg=rg,
-            celular=celular, endereco=endereco, nacionalidade=nacionalidade, estado_civil=estado_civil,
-            profissao=profissao, convenio=convenio, terapeuta=request.user
-        )
-        return redirect(homePaciente)
-    return render(request, "cadastrar.html")
-
-@login_required
-def pagina_cadastrar(request):
-    return render(request, "cadastrar.html")
-
-@login_required
-def editar(request, idPaciente):
-    paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
-    return render(request, "editar.html", {"paciente": paciente})
-
-@login_required
-def atualizar(request, idPaciente):
-    paciente = get_object_or_404(CadastroPaciente, id=idPaciente, terapeuta=request.user)
-    if request.method == 'POST':
-        paciente.nome = request.POST.get("nome")
-        paciente.data_nascimento = request.POST.get("data_nascimento")
-        paciente.sexo = request.POST.get("sexo")
-        paciente.email = request.POST.get("email")
-        paciente.cpf = request.POST.get("cpf")
-        paciente.rg = request.POST.get("rg")
-        paciente.celular = request.POST.get("celular")
-        paciente.endereco = request.POST.get("endereco")
-        paciente.nacionalidade = request.POST.get("nacionalidade")
-        paciente.estado_civil = request.POST.get("estado_civil")
-        paciente.profissao = request.POST.get("profissao")
-        paciente.convenio = request.POST.get("convenio")
-        paciente.save()
-        return redirect(homePaciente)
-    return render(request, "editar.html", {"paciente": paciente})
-
-@login_required
-def deletar(request, idPaciente):
-    paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
-    paciente.delete()
-    return redirect(homePaciente)
-
-@login_required(login_url="/auth/login/")
 def agenda(request):
+    """Exibe a página de agenda com as consultas agendadas."""
     consultas = Agenda.objects.filter(
         terapeuta=request.user
     ).order_by('date')
@@ -119,17 +39,17 @@ def agenda(request):
             'valor_consulta': float(consulta.valor_consulta)
         })
 
-    return render(request, 'agenda.html', {
+    return render(request, 'agenda_t.html', {
         'consultas': dados_consultas,
         'pacientes': pacientes
     })
 
 @login_required(login_url="/auth/login/")
 def dashboard(request):
+    """Exibe a página de dashboard com estatísticas das consultas."""
     hoje = timezone.now().date()
     
-    pacientes = CadastroPaciente.objects.filter(terapeuta=request.user)
-    total_pacientes = pacientes.count()
+    total_pacientes = CadastroPaciente.objects.filter(terapeuta=request.user).count()
     
     primeiro_dia_mes = hoje.replace(day=1)
     consultas_mes = Agenda.objects.filter(
@@ -143,6 +63,7 @@ def dashboard(request):
         confirmada=True
     ).count()
     
+    # Cálculo do faturamento com tratamento para None
     faturamento_result = Agenda.objects.filter(
         terapeuta=request.user,
         date__gte=primeiro_dia_mes,
@@ -152,6 +73,9 @@ def dashboard(request):
     )
     
     faturamento_mes = faturamento_result['total'] if faturamento_result['total'] is not None else Decimal('0.00')
+    
+    # Log para depuração
+    logger.info(f"Faturamento calculado: {faturamento_mes} | Consultas confirmadas: {Agenda.objects.filter(date__gte=primeiro_dia_mes, confirmada=True).count()}")
     
     meses_para_analise = 6
     data_inicio = hoje - timedelta(days=30*meses_para_analise)
@@ -168,6 +92,9 @@ def dashboard(request):
         faturamento=Coalesce(Sum('valor_consulta', filter=Q(confirmada=True)), Value(Decimal('0.00')))
     ).order_by('mes')
 
+    # Log para verificação dos dados
+    logger.debug(f"Consultas por mês raw: {list(consultas_por_mes)}")
+    
     meses_completos = []
     for i in range(meses_para_analise):
         mes = (hoje.replace(day=1) - timedelta(days=30*i))
@@ -187,10 +114,14 @@ def dashboard(request):
                          if item['mes'].month == mes.month and item['mes'].year == mes.year), None)
         
         if dados_mes:
+            # Convertendo explicitamente para valores numéricos
             consultas_data.append(int(dados_mes['total']))
             confirmadas_data.append(int(dados_mes['confirmadas']))
             canceladas_data.append(int(dados_mes['canceladas']))
-            faturamento_data.append(float(dados_mes['faturamento']))
+            # Converter Decimal para float para serialização JSON adequada
+            valor_faturamento = float(dados_mes['faturamento'])
+            faturamento_data.append(valor_faturamento)
+            logger.debug(f"Mês {mes_formatado}: Faturamento={valor_faturamento}, tipo={type(valor_faturamento)}")
         else:
             consultas_data.append(0)
             confirmadas_data.append(0)
@@ -206,52 +137,47 @@ def dashboard(request):
         'chart_consultas': json.dumps(consultas_data),
         'chart_confirmadas': json.dumps(confirmadas_data),
         'chart_canceladas': json.dumps(canceladas_data),
-        'chart_faturamento': json.dumps(faturamento_data),
-        'pacientes': pacientes
+        'chart_faturamento': json.dumps(faturamento_data)
     })
 
 @login_required
 def dashboard_data(request):
+    """Retorna dados para o dashboard em formato JSON com filtros opcionais"""
     try:
         hoje = timezone.now().date()
         
+        # Validação dos parâmetros
         try:
             meses = int(request.GET.get('meses', 6))
-            if meses <= 0 or meses > 24:
+            if meses <= 0 or meses > 24:  # Limite máximo de 24 meses
                 meses = 6
                 logger.warning(f"Período inválido, usando padrão de 6 meses")
         except ValueError:
             meses = 6
             logger.warning("Valor inválido para meses, usando padrão 6")
         
-        paciente_id = request.GET.get('paciente', 'todos')
-        
-        logger.info(f"Iniciando geração de dados para {meses} meses, paciente: {paciente_id}")
+        logger.info(f"Iniciando geração de dados para {meses} meses")
 
+        # Calcular datas para o período solicitado
         data_fim = timezone.now()
         data_inicio = data_fim - timedelta(days=30*meses)
         
+        # Obter o total de pacientes
         total_pacientes = CadastroPaciente.objects.filter(terapeuta=request.user).count()
         logger.info(f"Total de pacientes encontrados: {total_pacientes}")
 
+        # Construir a query base para consultas - IMPORTANTE: remover qualquer filtro que possa estar limitando os valores
         consultas_query = Agenda.objects.filter(
             terapeuta=request.user,
             date__range=[data_inicio, data_fim]
         )
-        
-        if paciente_id != 'todos':
-            try:
-                paciente_obj = CadastroPaciente.objects.get(
-                    pk=paciente_id, 
-                    terapeuta=request.user
-                )
-                consultas_query = consultas_query.filter(paciente=paciente_obj)
-                logger.info(f"Filtrando por paciente: {paciente_obj.nome}")
-            except CadastroPaciente.DoesNotExist:
-                logger.warning(f"Paciente ID {paciente_id} não encontrado, ignorando filtro")
-        
         logger.debug(f"Query base: {str(consultas_query.query)}")
         
+        # Log para debug - examinar os valores de todas as consultas
+        for consulta in consultas_query:
+            logger.debug(f"Consulta ID: {consulta.id}, Data: {consulta.date}, Valor: {consulta.valor_consulta}, Tipo: {type(consulta.valor_consulta)}, Confirmada: {consulta.confirmada}")
+
+        # Agrupar consultas por mês
         consultas = consultas_query.annotate(
             mes=TruncMonth('date')
         ).values('mes').annotate(
@@ -261,52 +187,80 @@ def dashboard_data(request):
             faturamento=Coalesce(Sum('valor_consulta', filter=Q(confirmada=True)), Value(Decimal('0.00')))
         ).order_by('mes')
         
+        # Log das consultas obtidas para debug
         logger.debug(f"Consulta por mês (raw): {list(consultas)}")
 
+        # Cálculo do resumo para cartões
         primeiro_dia_mes = hoje.replace(day=1)
         
+        # Consultas do mês
         consultas_mes = consultas_query.filter(date__gte=primeiro_dia_mes).count()
         logger.info(f"Consultas este mês: {consultas_mes}")
 
+        # Consultas hoje
         consultas_hoje = consultas_query.filter(
             date__date=hoje,
             confirmada=True
         ).count()
         logger.info(f"Consultas hoje: {consultas_hoje}")
 
+        # Cálculo detalhado do faturamento - adicionando mais logs e garantindo que o tipo decimal é tratado corretamente
         faturamento_query = consultas_query.filter(
             date__gte=primeiro_dia_mes,
             confirmada=True
         )
         
+        logger.debug(f"Query faturamento: {str(faturamento_query.query)}")
+        logger.debug(f"Consultas para faturamento: {faturamento_query.count()}")
+        
+        # Log individual das consultas para faturamento
         faturamento_manual = Decimal('0.00')
         for consulta in faturamento_query:
             valor = consulta.valor_consulta if consulta.valor_consulta is not None else Decimal('0.00')
             faturamento_manual += valor
             logger.debug(f"Consulta ID: {consulta.id}, Valor: {valor}, Tipo: {type(valor)}")
         
-        faturamento_mes = faturamento_manual
+        logger.debug(f"Faturamento calculado manualmente: {faturamento_manual}")
+        
+        faturamento_result = faturamento_query.aggregate(
+            total=Coalesce(Sum('valor_consulta'), Value(Decimal('0.00')))
+        )
+        
+        logger.info(f"Resultado bruto do faturamento: {faturamento_result}")
+        
+        faturamento_mes = faturamento_result['total'] if faturamento_result['total'] is not None else Decimal('0.00')
         logger.info(f"Faturamento calculado: {faturamento_mes}")
+        
+        # Verificar se o faturamento está correto comparando com o cálculo manual
+        if faturamento_mes != faturamento_manual:
+            logger.warning(f"Diferença detectada no faturamento! Agregação: {faturamento_mes}, Manual: {faturamento_manual}")
+            # Usar o valor calculado manualmente se houver diferença
+            faturamento_mes = faturamento_manual
 
+        # Criar lista de meses completos para o período solicitado
         meses_completos = []
         for i in range(meses):
             mes = (data_fim.replace(day=1) - timedelta(days=30*i))
             meses_completos.append(mes.replace(day=1))
         
+        # Montar dados por mês, preenchendo meses vazios com zeros
         dados = []
         for mes in sorted(meses_completos):
             dados_mes = next((item for item in consultas 
                             if item['mes'] and item['mes'].month == mes.month and item['mes'].year == mes.year), None)
             
             if dados_mes:
+                # Verificação detalhada dos valores
                 faturamento = dados_mes['faturamento'] if dados_mes['faturamento'] is not None else Decimal('0.00')
+                
+                # Garantir que mesmo com valores decimais diferentes de 200, eles sejam convertidos corretamente para float
                 valor_faturamento = float(faturamento)
                 
+                # Converter explicitamente para tipos primitivos para garantir serialização correta
                 logger.debug(f"Dados para {mes.strftime('%b/%Y')}: "
                             f"Consultas={dados_mes['total_consultas']}, "
                             f"Confirmadas={dados_mes['confirmadas']}, "
-                            f"Canceladas={dados_mes['canceladas']}, "
-                            f"Faturamento={valor_faturamento}")
+                            f"Faturamento={valor_faturamento}, Tipo={type(valor_faturamento)}")
                 
                 dados.append({
                     'mes': mes.strftime('%Y-%m'),
@@ -314,7 +268,7 @@ def dashboard_data(request):
                     'consultas': int(dados_mes['total_consultas']),
                     'confirmadas': int(dados_mes['confirmadas']),
                     'canceladas': int(dados_mes['canceladas']),
-                    'faturamento': valor_faturamento
+                    'faturamento': valor_faturamento  # Convertendo Decimal para float explicitamente
                 })
             else:
                 logger.debug(f"Sem dados para {mes.strftime('%b/%Y')}")
@@ -327,13 +281,7 @@ def dashboard_data(request):
                     'faturamento': 0.0
                 })
 
-        nome_paciente = None
-        if paciente_id != 'todos':
-            try:
-                nome_paciente = CadastroPaciente.objects.get(pk=paciente_id).nome
-            except CadastroPaciente.DoesNotExist:
-                nome_paciente = None
-
+        # Montar resposta completa
         resposta = {
             'status': 'success',
             'data': dados,
@@ -341,8 +289,7 @@ def dashboard_data(request):
                 'total_pacientes': total_pacientes,
                 'consultas_mes': consultas_mes,
                 'consultas_hoje': consultas_hoje,
-                'faturamento_mes': float(faturamento_mes),
-                'nome_paciente': nome_paciente
+                'faturamento_mes': float(faturamento_mes)  # Convertendo Decimal para float explicitamente
             }
         }
         
@@ -364,6 +311,7 @@ def dashboard_data(request):
 @login_required
 @require_http_methods(["POST"])
 def confirmar_consulta(request):
+    """Alterna o status de confirmação de uma consulta."""
     try:
         data = json.loads(request.body)
         consulta = Agenda.objects.get(
@@ -396,22 +344,34 @@ def confirmar_consulta(request):
 
 @login_required(login_url="/auth/login/")
 def criar_consulta(request):
+    """Cria uma nova consulta com base nos dados enviados pelo formulário."""
     if request.method == 'POST':
         try:
+            # Validação dos dados
             data_consulta_str = request.POST.get('date')
+            if not data_consulta_str:
+                raise ValueError("Data da consulta não fornecida")
+                
+            id_paciente = request.POST.get('paciente')
+            if not id_paciente:
+                raise ValueError("Paciente não selecionado")
+            
+            # Processamento dos dados
             data_consulta = timezone.make_aware(
-                timezone.datetime.strptime(data_consulta_str, '%Y-%m-%dT%H:%M')
+                datetime.strptime(data_consulta_str, '%Y-%m-%dT%H:%M')
             )
             
-            id_paciente = request.POST.get('paciente')
-            paciente = CadastroPaciente.objects.get(pk=id_paciente)
+            paciente = CadastroPaciente.objects.get(pk=id_paciente, terapeuta=request.user)
             
             horario_lembrete_str = request.POST.get('horario_lembrete', '16:00')
-            horario_lembrete = timezone.datetime.strptime(horario_lembrete_str, '%H:%M').time()
+            horario_lembrete = datetime.strptime(horario_lembrete_str, '%H:%M').time()
             
-            valor_consulta = Decimal(request.POST.get('valor_consulta', '200.00'))
-            logger.info(f"Valor da consulta recebido: {valor_consulta}")
+            try:
+                valor_consulta = Decimal(request.POST.get('valor_consulta', '200.00'))
+            except:
+                valor_consulta = Decimal('200.00')
             
+            # Criação da consulta
             nova_consulta = Agenda(
                 date=data_consulta, 
                 paciente=paciente, 
@@ -420,24 +380,44 @@ def criar_consulta(request):
                 horario_lembrete=horario_lembrete,
                 valor_consulta=valor_consulta
             )
+            
+            nova_consulta.full_clean()  # Validação do modelo
             nova_consulta.save()
-            logger.info(f"Consulta criada com valor: {nova_consulta.valor_consulta}")
+            
+            messages.success(request, 'Consulta criada com sucesso!')
             return redirect('agenda')
+            
+        except CadastroPaciente.DoesNotExist:
+            messages.error(request, 'Paciente não encontrado')
+            return redirect('agenda')
+            
+        except ValueError as e:
+            messages.error(request, f'Erro nos dados: {str(e)}')
+            return redirect('agenda')
+            
         except Exception as e:
             logger.error(f"Erro ao criar consulta: {str(e)}\n{traceback.format_exc()}")
+            messages.error(request, 'Erro ao criar consulta')
             return redirect('agenda')
+    
+    # Se não for POST, redireciona para a agenda
+    return redirect('agenda')
 
 @login_required(login_url="/auth/login/")
 def deletar_consulta(request, id_agenda):
+    """Exclui uma consulta com base no ID fornecido."""
     try:
         agenda = Agenda.objects.get(pk=id_agenda)
         agenda.delete()
+        messages.success(request, 'Consulta excluída com sucesso!')  # Added success message
     except Agenda.DoesNotExist:
         logger.error(f"Consulta com ID {id_agenda} não encontrada\n{traceback.format_exc()}")
+        messages.error(request, 'Consulta não encontrada')  # Added error message
     return redirect('agenda')
 
 @login_required(login_url="/auth/login/")
 def atualizar_horario_lembrete(request, id_agenda):
+    """Atualiza o horário do lembrete para uma consulta específica."""
     if request.method == 'POST':
         try:
             consulta = Agenda.objects.get(pk=id_agenda, terapeuta=request.user)
@@ -477,6 +457,7 @@ def atualizar_horario_lembrete(request, id_agenda):
     }, status=405)
 
 def formatar_telefone(numero):
+    """Formata o número de telefone para o padrão internacional."""
     if not numero:
         return ""
     telefone = numero.strip()
@@ -487,6 +468,7 @@ def formatar_telefone(numero):
     return ''.join(filter(lambda x: x.isdigit() or x == '+', telefone))
 
 def criar_mensagem(consulta):
+    """Cria a mensagem personalizada para o paciente."""
     data_formatada = consulta.date.strftime('%d/%m/%Y às %H:%M')
     mensagem = (
         f"Olá {consulta.paciente.nome},\n\n"
@@ -499,6 +481,7 @@ def criar_mensagem(consulta):
 
 @login_required(login_url="/auth/login/")
 def enviar_lembretes(request):
+    """Envia lembretes de consulta via WhatsApp."""
     if request.method == 'POST':
         if request.headers.get('Content-Type') == 'application/json':
             try:
@@ -622,6 +605,7 @@ def enviar_lembretes(request):
 
 @login_required(login_url="/auth/login/")
 def verificar_lembretes_manual(request):
+    """Executa verificação de lembretes manualmente para depuração"""
     try:
         agora = timezone.now()
         amanha = agora.date() + timedelta(days=1)

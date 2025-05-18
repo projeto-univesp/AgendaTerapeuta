@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
+  <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
   <title>Minha Agenda</title>
   <style>
     body {
@@ -452,6 +452,7 @@
       <div class="input-container">
         <label for="valor_consulta">Valor da Consulta (R$):</label>
         <select id="valor_consulta" name="valor_consulta" required>
+          <option value="200.00" selected>R$ 150,00</option>
           <option value="200.00" selected>R$ 200,00</option>
           <option value="250.00">R$ 250,00</option>
           <option value="300.00">R$ 300,00</option>

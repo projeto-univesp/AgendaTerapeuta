@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}">
+    <link rel="icon" href="{% static 'favicon/Icons-Land-Medical-People-Doctor-Male.ico' %}?v=1">
     <title>Editar Cadastro</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -117,12 +117,12 @@
     <a href="{% url 'homePaciente' %}" class="back-btn">Voltar</a>
     <div class="container">
         <h1>Editar Cadastro</h1>
-        <form action="{% url 'salvar' %}" method="POST">
+        <form action="{% url 'atualizar_t' paciente.idPaciente %}" method="POST">
             {% csrf_token %}
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-6">
                     <h3 class="small-header">Nome</h3>
-                    <input type="text" name="nome" class="form-control" value="{{paciente.nome}}" required />
+                    <input type="text" name="nome" class="form-control" value="{{ paciente.nome }}" required />
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Data de Nascimento</h3>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Endereço</h3>
-                    <input type="text" name="Endereco" class="form-control" value="{{paciente.Endereco}}" />
+                    <input type="text" name="endereco" class="form-control" value="{{paciente.endereco}}" />
                 </div>
             </div>
             <div class="row" style="padding-bottom: 15px;">
@@ -172,13 +172,13 @@
                 </div>
                 <div class="col-md-6">
                     <h3 class="small-header">Estado Civil</h3>
-                    <select name="estadocivil" class="form-control" required>
+                    <select name="estado_civil" class="form-control" required>
                         <option value="">Selecione</option>
-                        <option value="Solteiro" {% if paciente.estadocivil == "Solteiro" %}selected{% endif %}>Solteiro</option>
-                        <option value="Casado(a)" {% if paciente.estadocivil == "Casado(a)" %}selected{% endif %}>Casado(a)</option>
-                        <option value="Viuvo(a)" {% if paciente.estadocivil == "Viuvo(a)" %}selected{% endif %}>Viuvo(a)</option>
-                        <option value="Divorciado(a)" {% if paciente.estadocivil == "Divorciado(a)" %}selected{% endif %}>Divorciado(a)</option>
-                        <option value="União estável" {% if paciente.estadocivil == "União estável" %}selected{% endif %}>União estável</option>
+                        <option value="Solteiro" {% if paciente.estado_civil == "Solteiro" %}selected{% endif %}>Solteiro</option>
+                        <option value="Casado(a)" {% if paciente.estado_civil == "Casado(a)" %}selected{% endif %}>Casado(a)</option>
+                        <option value="Viuvo(a)" {% if paciente.estado_civil == "Viuvo(a)" %}selected{% endif %}>Viuvo(a)</option>
+                        <option value="Divorciado(a)" {% if paciente.estado_civil == "Divorciado(a)" %}selected{% endif %}>Divorciado(a)</option>
+                        <option value="União estável" {% if paciente.estado_civil == "União estável" %}selected{% endif %}>União estável</option>
                     </select>
                 </div>
             </div>

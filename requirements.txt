@@ -13,4 +13,4 @@ tzdata
 Werkzeug==3.0.2
 dj-database-url
 celery==5.5.2
-pip freeze | grep pywhatkit >> requirements.txt
+pywhatkit

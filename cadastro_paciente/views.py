@@ -57,11 +57,11 @@ def pagina_cadastrar(request):
 @login_required
 def editar(request, idPaciente):
     paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
-    return render(request, "editar.html", {"paciente": paciente})
+    return render(request, "editar_pag_terapeuta.html", {"paciente": paciente})
 
 @login_required
 def atualizar(request, idPaciente):
-    paciente = get_object_or_404(CadastroPaciente, id=idPaciente, terapeuta=request.user)
+    paciente = get_object_or_404(CadastroPaciente, idPaciente=idPaciente, terapeuta=request.user)
     if request.method == 'POST':
         paciente.nome = request.POST.get("nome")
         paciente.data_nascimento = request.POST.get("data_nascimento")
@@ -77,7 +77,10 @@ def atualizar(request, idPaciente):
         paciente.convenio = request.POST.get("convenio")
         paciente.save()
         return redirect(homePaciente)
-    return render(request, "editar.html", {"paciente": paciente})
+    return render(request, "cadastro_paciente_paciente/editar.html", {"paciente": paciente})
+
+
+
 
 @login_required
 def deletar(request, idPaciente):

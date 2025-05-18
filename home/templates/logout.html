@@ -40,6 +40,31 @@
             font-size: 16px;
         }
 
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;            /* Mesmo padding vertical */
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 120px;               /* Largura fixa para ambos */
+            text-align: center;
+            text-decoration: none;      /* Remove sublinhado do <a> */
+            display: inline-block;      /* Necessário para <a> funcionar como botão */
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
         .button-group {
             display: flex;
             justify-content: center;
@@ -96,12 +121,14 @@
     <div class="container">
         <h1>Sair</h1>
         <p>Tem certeza que deseja sair?</p>
-        <div class="button-group">
-            <form action="{% url 'pagina_inicial' %}" method="post">
+
+        <div class="btn-container">
+            <a href="{% url 'home_paciente' %}" class="btn-custom">Voltar</a>
+
+            <form action="{% url 'pagina_inicial' %}" method="post" style="margin: 0;">
                 {% csrf_token %}
-                <button type="submit">Sair</button>
+                <button type="submit" class="btn-custom">Sair</button>
             </form>
-            <a href="{% url 'home' %}">Voltar</a>
         </div>
     </div>
 
